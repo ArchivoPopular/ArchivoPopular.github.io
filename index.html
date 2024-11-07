@@ -85,7 +85,6 @@
         </div>
        <nav>
     <ul>
-        <li><a href="index.html">Inicio</a></li>
         <li><a href="noticias.html">Últimas Noticias</a></li>
         <li><a href="personajes.html">Personajes Importantes</a></li>
         <li><a href="fotografos.html">Nuestros Fotógrafos</a></li>
@@ -93,13 +92,10 @@
 </nav>
     </header>
     <div class="container">
-        <section id="inicio">
-            <h2 style="margin-bottom: 20px;">Inicio</h2>
-            <p>Este es un sitio web de noticias...</p>
-        </section>
-        <section id="ultimas-noticias">
-            <h2>Últimas Noticias</h2>
-            <p>Esta página está en desarrollo.</p>
+<div class="ultimas-noticias">
+    <h2>Últimas Noticias</h2>
+    <!-- Aquí se insertarán las noticias automáticamente -->
+</div>
         </section>
         <section id="nosotros">
     <h2>Nosotros</h2>
@@ -128,7 +124,35 @@
         </section>
     </div>
     <footer>
-        <p>Archivo Popular © 2024</p>
+        <p>Archivo Popular © 2025</p>
     </footer>
+    <!-- Este es el código al final del archivo HTML, justo antes de </body> -->
+<script>
+    // Reemplaza 'TU_CLAVE_API' por tu clave de API de NewsAPI
+    const apiKey = 'TU_CLAVE_API';
+    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const noticiasContainer = document.querySelector('.ultimas-noticias'); // Este es el contenedor donde se mostrarán las noticias
+
+            // Limpiar cualquier noticia previa
+            noticiasContainer.innerHTML = '';
+
+            // Iterar sobre las noticias y agregarlas al contenedor
+            data.articles.forEach(article => {
+                const noticiaDiv = document.createElement('div');
+                noticiaDiv.classList.add('noticia');
+
+                noticiaDiv.innerHTML = `
+                    <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                    <p>${article.description}</p>
+                `;
+                noticiasContainer.appendChild(noticiaDiv);
+            });
+        })
+        .catch(error => console.log('Error al cargar noticias:', error));
+</script>
 </body>
 </html>
