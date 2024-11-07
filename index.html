@@ -128,31 +128,34 @@
     </footer>
     <!-- Este es el código al final del archivo HTML, justo antes de </body> -->
 <script>
-    // Reemplaza 'TU_CLAVE_API' por tu clave de API de NewsAPI
-    const apiKey = 8201eca19a0e4024bb58857a89fce2f8;
-    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+const apiKey = '8201eca19a0e4024bb58857a89fce2f8'; // Tu clave API
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const noticiasContainer = document.querySelector('.ultimas-noticias'); // Este es el contenedor donde se mostrarán las noticias
+const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
 
-            // Limpiar cualquier noticia previa
-            noticiasContainer.innerHTML = '';
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const noticiasContainer = document.querySelector('.ultimas-noticias');
+        noticiasContainer.innerHTML = ''; // Limpiar la sección de noticias antes de agregar nuevas
 
-            // Iterar sobre las noticias y agregarlas al contenedor
+        // Si la respuesta contiene artículos
+        if (data.articles && data.articles.length > 0) {
             data.articles.forEach(article => {
                 const noticiaDiv = document.createElement('div');
                 noticiaDiv.classList.add('noticia');
-
                 noticiaDiv.innerHTML = `
                     <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
                     <p>${article.description}</p>
                 `;
                 noticiasContainer.appendChild(noticiaDiv);
             });
-        })
-        .catch(error => console.log('Error al cargar noticias:', error));
+        } else {
+            noticiasContainer.innerHTML = '<p>No hay noticias disponibles.</p>';
+        }
+    })
+    .catch(error => {
+        console.log('Error al cargar noticias:', error);
+    });
 </script>
 </body>
 </html>
