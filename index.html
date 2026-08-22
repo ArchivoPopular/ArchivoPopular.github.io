@@ -1,161 +1,151 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es-UY">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archivo Popular</title>
-    <style>
-        body {
-            background: linear-gradient(45deg, #000000, #333333); /* Fondo con degradado */
-            margin: 0;
-            padding: 0;
-            color: white; /* Texto en blanco */
-            font-family: Arial, sans-serif;
-        }
-        header {
-            background-color: black;
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            border-top: 5px solid red; /* Borde rojo en la parte superior del encabezado */
-        }
-        footer {
-            background-color: black;
-            color: red;
-            text-align: center;
-            padding: 1rem 0;
-            width: 100%;
-            border-top: 1px solid white; /* Añadimos un borde blanco en la parte superior del pie de página */
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            margin-bottom: 100px; /* Agregamos un espacio adicional en la parte inferior del contenido */
-        }
-        header img {
-            max-width: 300px; /* Ajusta el tamaño del logo según sea necesario */
-            height: auto;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-            margin-top: 20px; /* Ajustamos el margen superior del menú de navegación */
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s ease; /* Agregamos una transición de color suave */
-        }
-        nav ul li a:hover {
-            color: red;
-        }
-        #nosotros {
-            background-color: rgba(0, 0, 0, 0.8); /* Fondo negro semi-transparente */
-            padding: 50px 0; /* Agrega espaciado interno arriba y abajo */
-        }
-        #nosotros h2,
-        #nosotros p {
-            color: white; /* Cambia el color del texto según tu preferencia */
-        }
-        .redes-sociales {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .redes-sociales a {
-            display: inline-block;
-            margin: 0 10px;
-        }
-        .redes-sociales img {
-            width: 50px; /* Ajusta el tamaño de los iconos según sea necesario */
-            height: auto;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Archivo Popular: noticias políticas, memoria, derechos y cultura desde Uruguay con una mirada popular y latinoamericana.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Archivo Popular">
+  <meta property="og:description" content="Noticias, memoria y fotografía desde una mirada popular y latinoamericana.">
+  <meta property="og:image" content="https://archivopopular.github.io/assets/news/lula-bangu-2026.webp">
+  <meta property="og:url" content="https://archivopopular.github.io/">
+  <link rel="canonical" href="https://archivopopular.github.io/">
+  <link rel="stylesheet" href="styles.css">
+  <title>Archivo Popular | Noticias y memoria desde Uruguay</title>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <img src="logo.png" alt="Logo de Archivo Popular">
-        </div>
-       <nav>
-    <ul>
-        <li><a href="noticias.html">Últimas Noticias</a></li>
-        <li><a href="personajes.html">Personajes Importantes</a></li>
-        <li><a href="fotografos.html">Nuestros Fotógrafos</a></li>
-    </ul>
-</nav>
-    </header>
-    <div class="container">
-<div class="ultimas-noticias">
-    <h2>Últimas Noticias</h2>
-    <!-- Aquí se insertarán las noticias automáticamente -->
-</div>
-        </section>
-        <section id="nosotros">
-    <h2>Nosotros</h2>
-    <p>
-        Archivo Popular es mucho más que un simple medio de noticias. Somos una voz comprometida con la justicia social, la equidad y la transparencia. Fundado el 28 de octubre de 2023, en Uruguay, nos enorgullece ofrecer una plataforma independiente y gratuita para informar, educar y empoderar a nuestra comunidad.
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-        Nuestra misión es proporcionar información precisa, contextualizada y relevante sobre los eventos y temas que afectan a nuestra sociedad. Creemos en el poder de la información para generar un cambio positivo y promover la participación ciudadana en los asuntos que nos conciernen a todos.
-
-        En Archivo Popular, nos esforzamos por ir más allá de las noticias superficiales y proporcionar un análisis profundo y reflexivo de los problemas que enfrentamos como sociedad. Priorizamos la diversidad de perspectivas y nos comprometemos a amplificar las voces marginadas y subrepresentadas en nuestro medio.
-
-        Nuestro equipo editorial está formado por periodistas comprometidos y apasionados que comparten los valores fundamentales de integridad, honestidad y ética profesional. Nos esforzamos por mantener altos estándares de calidad en todo nuestro trabajo, desde la investigación exhaustiva hasta la presentación de noticias imparciales y objetivas.
-
-        Valoramos profundamente la participación y el compromiso de nuestra audiencia. Nos esforzamos por construir una comunidad inclusiva donde todas las voces sean escuchadas y respetadas. Creemos en el diálogo constructivo y en el intercambio de ideas como medios para avanzar hacia un futuro más justo y equitativo para todos.
-
-        Gracias por ser parte de nuestra comunidad y por apoyar nuestro trabajo. Juntos, podemos hacer una diferencia y construir un mundo mejor para las generaciones futuras.
-    </p>
-            </section>
-        </section>
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <div class="redes-sociales">
-                <a href="https://www.instagram.com/archivopopular/" target="_blank"><img src="instagram.png" alt="Instagram"></a>
-                <a href="https://www.facebook.com/profile.php?id=61560610077791" target="_blank"><img src="facebook.png" alt="Facebook"></a>
-                <a href="https://www.tiktok.com/@archivopopular?lang=es" target="_blank"><img src="tiktok.png" alt="TikTok"></a>
-            </div>
-        </section>
+  <header class="site-header">
+    <div class="wrapper topline">
+      <span>Montevideo · Uruguay · Desde 2023</span>
+      <span>Noticias, memoria y fotografía</span>
     </div>
-    <footer>
-        <p>Archivo Popular © 2025</p>
-    </footer>
-    <!-- Este es el código al final del archivo HTML, justo antes de </body> -->
-<script>
-const apiKey = '8201eca19a0e4024bb58857a89fce2f8'; // Tu clave API
+    <div class="wrapper brandbar">
+      <a class="brand" href="index.html" aria-label="Archivo Popular, inicio">
+        <img src="logo.png" alt="Archivo Popular" width="2048" height="696">
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal" data-open="false">
+        <ul>
+          <li><a href="index.html" aria-current="page">Inicio</a></li>
+          <li><a href="noticias.html">Noticias</a></li>
+          <li><a href="personajes.html">Archivo político</a></li>
+          <li><a href="fotografos.html">Fotógrafos</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+        </ul>
+      </nav>
+      <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
 
-const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+  <div class="ticker" aria-label="Temas de Archivo Popular">
+    <div class="wrapper">
+      <span>Política</span><span>Derechos</span><span>Memoria</span><span>Cultura</span><span>América Latina</span>
+    </div>
+  </div>
 
-fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        const noticiasContainer = document.querySelector('.ultimas-noticias');
-        noticiasContainer.innerHTML = ''; // Limpiar la sección de noticias antes de agregar nuevas
+  <main id="contenido" class="page-main">
+    <section class="wrapper hero" aria-labelledby="ultima-noticia">
+      <p class="section-label">Última noticia</p>
+      <article class="lead-story" data-latest-story aria-live="polite">
+        <figure>
+          <img src="assets/news/lula-bangu-2026.webp" alt="Lula celebra junto a Eduardo Paes durante el acto de campaña en Bangu, Río de Janeiro" width="750" height="500">
+          <figcaption class="photo-credit">Foto: Ricardo Stuckert / PT</figcaption>
+        </figure>
+        <div class="lead-copy">
+          <p class="story-meta"><span>22 AGO 2026</span><span>Brasil</span></p>
+          <h1 id="ultima-noticia">Lula lleva su campaña a Río con educación frente a la línea dura de Flávio Bolsonaro</h1>
+          <p class="summary">Dos actos simultáneos expusieron modelos opuestos sobre seguridad pública mientras Lula conserva la delantera electoral.</p>
+          <a class="story-link" href="noticias/lula-campana-rio-educacion-2026.html">Leer la noticia</a>
+        </div>
+      </article>
+    </section>
 
-        // Si la respuesta contiene artículos
-        if (data.articles && data.articles.length > 0) {
-            data.articles.forEach(article => {
-                const noticiaDiv = document.createElement('div');
-                noticiaDiv.classList.add('noticia');
-                noticiaDiv.innerHTML = `
-                    <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-                    <p>${article.description}</p>
-                `;
-                noticiasContainer.appendChild(noticiaDiv);
-            });
-        } else {
-            noticiasContainer.innerHTML = '<p>No hay noticias disponibles.</p>';
-        }
-    })
-    .catch(error => {
-        console.log('Error al cargar noticias:', error);
-    });
-</script>
+    <section class="section section--white" aria-labelledby="archivo-vivo">
+      <div class="wrapper">
+        <div class="section-heading">
+          <h2 id="archivo-vivo">Un medio, también un archivo</h2>
+          <p>La actualidad importa, pero también importa conservar quiénes la documentan y de dónde vienen las ideas que atraviesan nuestra historia.</p>
+        </div>
+        <div class="archive-grid">
+          <a class="archive-card" href="fotografos.html">
+            <img src="santiagoares2.jpg" alt="Santiago Ares trabajando como fotógrafo entre una multitud" width="3024" height="4032">
+            <div class="archive-card__copy">
+              <p class="eyebrow">Miradas propias</p>
+              <h3>Nuestros fotógrafos</h3>
+            </div>
+          </a>
+          <a class="archive-card" href="personajes.html">
+            <img src="seregni.jpg" alt="Líber Seregni" width="640" height="418">
+            <div class="archive-card__copy">
+              <p class="eyebrow">Memoria política</p>
+              <h3>Ideas y protagonistas</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="nosotros" class="section section--dark" aria-labelledby="nuestra-mirada">
+      <div class="wrapper">
+        <div class="section-heading">
+          <h2 id="nuestra-mirada">Nuestra mirada</h2>
+          <p>Archivo Popular nació en Montevideo el 28 de octubre de 2023. Tiene una línea progresista y de izquierda, sin convertir esa identidad en permiso para deformar los hechos.</p>
+        </div>
+        <div class="values-grid">
+          <article class="value">
+            <span class="value__number">01</span>
+            <h3>Hechos primero</h3>
+            <p>Verificamos la información y distinguimos datos, declaraciones, versiones e interpretación editorial.</p>
+          </article>
+          <article class="value">
+            <span class="value__number">02</span>
+            <h3>Mirada popular</h3>
+            <p>Priorizamos derechos sociales y laborales, democracia, memoria, servicios públicos e integración regional.</p>
+          </article>
+          <article class="value">
+            <span class="value__number">03</span>
+            <h3>Imágenes con contexto</h3>
+            <p>La fotografía no es decoración: la acreditamos, la situamos y evitamos recortes que cambien el sentido de los hechos.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper footer-grid">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Archivo Popular" width="2048" height="696">
+        <p>Noticias políticas, memoria y fotografía desde Uruguay con una mirada popular y latinoamericana.</p>
+      </div>
+      <div class="footer-column">
+        <h2>Secciones</h2>
+        <ul>
+          <li><a href="noticias.html">Noticias</a></li>
+          <li><a href="personajes.html">Archivo político</a></li>
+          <li><a href="fotografos.html">Nuestros fotógrafos</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h2>Seguinos</h2>
+        <ul>
+          <li><a href="https://www.instagram.com/archivopopular/" rel="me noopener" target="_blank">Instagram</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61560610077791" rel="noopener" target="_blank">Facebook</a></li>
+          <li><a href="https://www.tiktok.com/@archivopopular" rel="noopener" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrapper footer-bottom">
+      <span>Archivo Popular © <span data-current-year>2026</span></span>
+      <span>Montevideo, Uruguay</span>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script>
+  <script src="noticias.js" defer></script>
 </body>
 </html>

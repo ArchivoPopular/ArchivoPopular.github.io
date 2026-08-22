@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://archivopopular.github.io/sitemap.xml
