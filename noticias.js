@@ -5,7 +5,7 @@ function storyMeta(story) {
 function latestStory(story) {
   return `
     <figure>
-      <img src="${story.image}" alt="${story.imageAlt}" width="900" height="600">
+      <img src="${story.image}" alt="${story.imageAlt}" width="750" height="500">
       <figcaption class="photo-credit">Foto: ${story.photoCredit}</figcaption>
     </figure>
     <div class="lead-copy">
@@ -19,7 +19,7 @@ function latestStory(story) {
 function newsCard(story) {
   return `
     <a class="news-card" href="${story.url}">
-      <figure><img src="${story.image}" alt="${story.imageAlt}" width="900" height="600" loading="lazy"></figure>
+      <figure><img src="${story.image}" alt="${story.imageAlt}" width="750" height="500" loading="lazy"></figure>
       <div class="news-card__body">
         <p class="eyebrow">${story.category}</p>
         <h2>${story.title}</h2>
