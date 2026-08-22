@@ -32,7 +32,8 @@ function newsCard(story) {
 async function loadNews() {
   const latestContainer = document.querySelector("[data-latest-story]");
   const gridContainer = document.querySelector("[data-news-grid]");
-  if (!latestContainer && !gridContainer) return;
+  const homeGridContainer = document.querySelector("[data-home-news-grid]");
+  if (!latestContainer && !gridContainer && !homeGridContainer) return;
 
   try {
     const response = await fetch("data/noticias.json", { cache: "no-store" });
@@ -43,6 +44,12 @@ async function loadNews() {
     stories.sort((a, b) => new Date(b.date) - new Date(a.date));
     if (latestContainer) latestContainer.innerHTML = latestStory(stories[0]);
     if (gridContainer) gridContainer.innerHTML = stories.map(newsCard).join("");
+    if (homeGridContainer) {
+      const previousStories = stories.slice(1, 7);
+      homeGridContainer.innerHTML = previousStories.length
+        ? previousStories.map(newsCard).join("")
+        : '<p class="news-empty">Las próximas publicaciones aparecerán acá.</p>';
+    }
   } catch (error) {
     console.warn("No se pudo actualizar el archivo de noticias; se conserva el contenido estático.", error);
   }

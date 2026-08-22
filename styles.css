@@ -390,6 +390,28 @@ a {
   gap: 1.5rem;
 }
 
+.home-news {
+  border-top: 1px solid var(--line);
+}
+
+.home-news .section-heading .eyebrow {
+  margin-bottom: 0.55rem;
+}
+
+.home-news .button-link {
+  flex: 0 0 auto;
+  color: var(--black);
+}
+
+.news-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 2rem;
+  color: var(--muted);
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
 .news-card {
   display: flex;
   flex-direction: column;
@@ -837,7 +859,9 @@ a {
 
 .footer-brand img {
   width: 250px;
+  height: auto;
   margin-bottom: 1rem;
+  object-fit: contain;
 }
 
 .footer-brand p {
