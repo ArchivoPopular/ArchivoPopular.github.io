@@ -1,62 +1,75 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es-UY">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestros Fotógrafos</title>
-    <style>
-        /* Estilos CSS para esta página */
-        body {
-            font-family: Arial, sans-serif;
-            color: #333;
-            padding: 20px;
-            background: linear-gradient(45deg, #000000, #333333); /* Fondo con degradado */
-            margin: 0;
-        }
-
-        h1 {
-            color: #fff;
-            text-align: center;
-        }
-
-        .contenedor-fotografo {
-            background-color: #fff;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .imagen-fotografo {
-            max-width: 30%; /* Tamaño de la imagen reducido aún más */
-            height: auto;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
-        .enlace-bio {
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-            .enlace-bio:hover {
-                text-decoration: underline;
-            }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Conocé a los fotógrafos que construyen el archivo visual de Archivo Popular.">
+  <link rel="canonical" href="https://archivopopular.github.io/fotografos.html">
+  <link rel="stylesheet" href="styles.css">
+  <title>Nuestros fotógrafos | Archivo Popular</title>
 </head>
 <body>
-    <h1>Nuestros Fotógrafos</h1>
-
-    <div class="contenedor-fotografo">
-        <p>Debido a que somos un medio de comunicación joven, aún estamos en proceso de reclutamiento de fotógrafos. Si estás interesado en colaborar con nosotros como fotógrafo, no dudes en ponerte en contacto con nosotros.</p>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="wrapper topline"><span>Montevideo · Uruguay · Desde 2023</span><span>Noticias, memoria y fotografía</span></div>
+    <div class="wrapper brandbar">
+      <a class="brand" href="index.html" aria-label="Archivo Popular, inicio"><img src="logo.png" alt="Archivo Popular" width="2048" height="696"></a>
+      <nav class="site-nav" aria-label="Navegación principal" data-open="false">
+        <ul><li><a href="index.html">Inicio</a></li><li><a href="noticias.html">Noticias</a></li><li><a href="personajes.html">Archivo político</a></li><li><a href="fotografos.html" aria-current="page">Fotógrafos</a></li><li><a href="index.html#nosotros">Nosotros</a></li></ul>
+      </nav>
+      <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
+  </header>
 
-    <div class="contenedor-fotografo">
-        <h2>Santiago Ares</h2>
-        <img src="santiagoares2.jpg" alt="Santiago Ares" class="imagen-fotografo"> <!-- Imagen aún más pequeña -->
-        <p><a href="bio_santiagoares.html" class="enlace-bio">Haz clic aquí</a> para conocer la biografía de Santiago Ares, fotógrafo y fotoperiodista.</p>
+  <main id="contenido" class="page-main">
+    <section class="page-hero">
+      <div class="wrapper">
+        <div class="page-accent"></div>
+        <p class="eyebrow">El archivo tiene autor</p>
+        <h1 class="page-title">Nuestros fotógrafos</h1>
+        <p class="page-intro">La fotografía periodística no es una ilustración intercambiable. Cada imagen nace de una mirada, una posición y una presencia concreta frente a los hechos.</p>
+      </div>
+    </section>
+
+    <section class="section section--white" aria-labelledby="santiago-ares">
+      <div class="wrapper photographer-feature">
+        <figure>
+          <img src="santiagoares.jpg" alt="Santiago Ares fotografiando con una cámara Nikon" width="3024" height="4032">
+        </figure>
+        <div class="photographer-copy">
+          <p class="eyebrow">Fotógrafo y fotoperiodista</p>
+          <h2 id="santiago-ares">Santiago Ares</h2>
+          <p>Fotógrafo uruguayo dedicado a documentar movilizaciones sociales, política, memoria, cultura y vida cotidiana. Integra Archivo Popular desde su construcción visual y trabaja la fotografía como documento, no como simple acompañamiento del texto.</p>
+          <p>Su recorrido comenzó en las calles de Montevideo en 2022 y continúa entre la práctica fotoperiodística, la producción audiovisual y su formación en Fotografía en la Facultad de Artes de la Universidad de la República.</p>
+          <a class="button-link" href="bio_santiagoares.html">Conocer su trayectoria</a>
+          <div class="social-links">
+            <a href="https://www.instagram.com/ph.ares" rel="me noopener" target="_blank">Instagram · @ph.ares</a>
+            <a href="https://www.tiktok.com/@ph.ares" rel="noopener" target="_blank">TikTok</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sumate">
+      <div class="wrapper">
+        <div class="section-heading">
+          <h2 id="sumate">Una sección abierta</h2>
+          <p>Archivo Popular es un medio joven y esta página crecerá con nuevas miradas. Buscamos colaboraciones responsables, con créditos claros y respeto por el contexto de cada imagen.</p>
+        </div>
+        <p class="note">Si te interesa colaborar como fotógrafo o fotógrafa, escribinos por <a href="https://www.instagram.com/archivopopular/" rel="noopener" target="_blank">Instagram</a>. Enviar material no implica su publicación automática: cada propuesta se revisa editorialmente.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper footer-grid">
+      <div class="footer-brand"><img src="logo.png" alt="Archivo Popular" width="2048" height="696"><p>Noticias políticas, memoria y fotografía desde Uruguay con una mirada popular y latinoamericana.</p></div>
+      <div class="footer-column"><h2>Secciones</h2><ul><li><a href="noticias.html">Noticias</a></li><li><a href="personajes.html">Archivo político</a></li><li><a href="fotografos.html">Nuestros fotógrafos</a></li></ul></div>
+      <div class="footer-column"><h2>Seguinos</h2><ul><li><a href="https://www.instagram.com/archivopopular/" rel="me noopener" target="_blank">Instagram</a></li><li><a href="https://www.facebook.com/profile.php?id=61560610077791" rel="noopener" target="_blank">Facebook</a></li><li><a href="https://www.tiktok.com/@archivopopular" rel="noopener" target="_blank">TikTok</a></li></ul></div>
     </div>
-
+    <div class="wrapper footer-bottom"><span>Archivo Popular © <span data-current-year>2026</span></span><span>Montevideo, Uruguay</span></div>
+  </footer>
+  <script src="site.js" defer></script>
 </body>
 </html>
