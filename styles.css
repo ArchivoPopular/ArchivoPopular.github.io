@@ -523,6 +523,15 @@ a {
   gap: 1.5rem;
 }
 
+.archive-card--photographers {
+  grid-row: span 2;
+  min-height: 764px;
+}
+
+.archive-card--history h3 {
+  max-width: 15ch;
+}
+
 .values-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1173,6 +1182,11 @@ a {
   .photographer-feature,
   .profile-layout {
     grid-template-columns: 1fr;
+  }
+
+  .archive-card--photographers {
+    grid-row: auto;
+    min-height: 370px;
   }
 
   .history-entry {
