@@ -42,10 +42,13 @@ async function loadNews() {
     if (!Array.isArray(stories) || stories.length === 0) return;
 
     stories.sort((a, b) => new Date(b.date) - new Date(a.date));
-    if (latestContainer) latestContainer.innerHTML = latestStory(stories[0]);
+    const currentStories = stories.filter((story) => !story.archive);
+    if (latestContainer && currentStories.length) {
+      latestContainer.innerHTML = latestStory(currentStories[0]);
+    }
     if (gridContainer) gridContainer.innerHTML = stories.map(newsCard).join("");
     if (homeGridContainer) {
-      const previousStories = stories.slice(1, 7);
+      const previousStories = currentStories.slice(1, 7);
       homeGridContainer.innerHTML = previousStories.length
         ? previousStories.map(newsCard).join("")
         : '<p class="news-empty">Las próximas publicaciones aparecerán acá.</p>';

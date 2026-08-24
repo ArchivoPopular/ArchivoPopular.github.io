@@ -76,5 +76,19 @@
     "imageAlt": "Lula celebra junto a Eduardo Paes durante el acto de campaña en Bangu, Río de Janeiro",
     "photoCredit": "Ricardo Stuckert / PT",
     "url": "noticias/lula-campana-rio-educacion-2026.html"
+  },
+  {
+    "id": "ocupacion-liceo-damaso-mayo-2023",
+    "title": "Estudiantes ocuparon el Liceo Dámaso y denunciaron falta de presupuesto",
+    "summary": "La cobertura de Santiago Ares recogió denuncias sobre deterioro edilicio, salones superpoblados, baños clausurados y falta de auxiliares.",
+    "category": "Archivo 2023 · Educación pública",
+    "date": "2023-05-19",
+    "dateDisplay": "19 MAY 2023",
+    "place": "La Blanqueada · Montevideo",
+    "image": "assets/archive/damaso-ocupacion-techo-2023.webp",
+    "imageAlt": "Placas deterioradas y faltantes en el cielorraso de un salón del Liceo Dámaso",
+    "photoCredit": "Santiago Ares / Archivo Popular",
+    "url": "noticias/ocupacion-liceo-damaso-mayo-2023.html",
+    "archive": true
   }
 ]
