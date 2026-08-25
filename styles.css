@@ -246,6 +246,12 @@ a {
   object-fit: cover;
 }
 
+.lead-story figure img.media-contain,
+.news-card figure img.media-contain {
+  object-fit: contain;
+  background: #151515;
+}
+
 .photo-credit {
   position: absolute;
   z-index: 2;
@@ -665,6 +671,60 @@ a {
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.article-figure--poster {
+  width: min(100%, 760px);
+  justify-self: center;
+  background: transparent;
+}
+
+.article-figure--poster img {
+  max-height: none;
+  object-fit: contain;
+}
+
+.article-carousel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.8rem);
+  padding-top: clamp(1rem, 3vw, 2rem);
+  border-top: 1px solid var(--line);
+}
+
+.article-carousel__intro {
+  grid-column: 1 / -1;
+}
+
+.article-carousel__intro h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+}
+
+.article-carousel figure {
+  margin: 0;
+  overflow: hidden;
+  background: var(--black);
+  border-bottom: 6px solid var(--red);
+}
+
+.article-carousel img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.article-carousel figcaption {
+  min-height: 4.5rem;
+  padding: 0.8rem 0.9rem;
+  color: var(--white);
+  background: var(--black);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -1247,6 +1307,14 @@ a {
 @media (max-width: 680px) {
   body {
     font-size: 16px;
+  }
+
+  .article-carousel {
+    grid-template-columns: 1fr;
+  }
+
+  .article-carousel figcaption {
+    min-height: 0;
   }
 
   .wrapper {

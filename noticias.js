@@ -2,11 +2,16 @@ function storyMeta(story) {
   return `<p class="story-meta"><span>${story.dateDisplay}</span><span>${story.place}</span></p>`;
 }
 
+function storyImageClass(story) {
+  return story.imageFit === "contain" ? ' class="media-contain"' : "";
+}
+
 function latestStory(story) {
+  const creditLabel = story.creditLabel || "Foto";
   return `
     <figure>
-      <img src="${story.image}" alt="${story.imageAlt}" width="750" height="500">
-      <figcaption class="photo-credit">Foto: ${story.photoCredit}</figcaption>
+      <img${storyImageClass(story)} src="${story.image}" alt="${story.imageAlt}" width="750" height="500">
+      <figcaption class="photo-credit">${creditLabel}: ${story.photoCredit}</figcaption>
     </figure>
     <div class="lead-copy">
       ${storyMeta(story)}
@@ -19,7 +24,7 @@ function latestStory(story) {
 function newsCard(story) {
   return `
     <a class="news-card" href="${story.url}">
-      <figure><img src="${story.image}" alt="${story.imageAlt}" width="750" height="500" loading="lazy"></figure>
+      <figure><img${storyImageClass(story)} src="${story.image}" alt="${story.imageAlt}" width="750" height="500" loading="lazy"></figure>
       <div class="news-card__body">
         <p class="eyebrow">${story.category}</p>
         <h2>${story.title}</h2>
