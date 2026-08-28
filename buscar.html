@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Buscá noticias, historias, protagonistas y artículos del archivo completo de Archivo Popular.">
+  <link rel="canonical" href="https://archivopopular.github.io/buscar.html">
+  <link rel="stylesheet" href="styles.css?v=20260828-1">
+  <title>Buscar en el archivo | Archivo Popular</title>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="wrapper topline">
+      <span>Montevideo · Uruguay · Desde 2023</span>
+      <span>Noticias, memoria y fotografía</span>
+    </div>
+    <div class="wrapper brandbar">
+      <a class="brand" href="index.html" aria-label="Archivo Popular, inicio">
+        <img src="logo.png" alt="Archivo Popular" width="2269" height="713">
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal" data-open="false">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="noticias.html">Noticias</a></li>
+          <li><a href="personajes.html">Archivo político</a></li>
+          <li><a href="historia.html">Historia</a></li>
+          <li><a href="fotografos.html">Fotógrafos</a></li>
+          <li><a href="index.html#nosotros">Nosotros</a></li>
+        </ul>
+      </nav>
+      <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido" class="page-main search-page">
+    <section class="page-hero search-page__hero">
+      <div class="wrapper">
+        <div class="page-accent"></div>
+        <p class="eyebrow">Todo el archivo en un lugar</p>
+        <h1 class="page-title">Buscar</h1>
+        <p class="page-intro">Encontrá noticias nuevas y antiguas, procesos históricos, protagonistas y artículos por nombre, tema, fecha, lugar o cualquier palabra del texto.</p>
+      </div>
+    </section>
+
+    <section class="section section--white" aria-labelledby="buscar-en-archivo">
+      <div class="wrapper search-shell">
+        <form class="search-form" role="search" data-search-form>
+          <label for="search-input" id="buscar-en-archivo">¿Qué querés encontrar?</label>
+          <div class="search-form__row">
+            <input id="search-input" name="q" type="search" autocomplete="off" enterkeyhint="search" placeholder="Ejemplo: Rubén Rada, 1973, Cuba o Frente Amplio" data-search-input>
+            <button type="submit">Buscar</button>
+          </div>
+        </form>
+
+        <div class="search-suggestions" aria-label="Búsquedas sugeridas">
+          <span>Probá con:</span>
+          <button type="button" data-search-suggestion="Rubén Rada">Rubén Rada</button>
+          <button type="button" data-search-suggestion="dictadura">Dictadura</button>
+          <button type="button" data-search-suggestion="Frente Amplio">Frente Amplio</button>
+          <button type="button" data-search-suggestion="fotografía">Fotografía</button>
+        </div>
+
+        <p class="search-status" aria-live="polite" data-search-status>Escribí al menos dos caracteres para comenzar.</p>
+        <div class="search-results" data-search-results></div>
+
+        <noscript>
+          <p class="search-noscript">El buscador necesita JavaScript para funcionar. Podés recorrer las publicaciones desde la sección <a href="noticias.html">Noticias</a>.</p>
+        </noscript>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper footer-grid">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Archivo Popular" width="2269" height="713">
+        <p>Noticias políticas, memoria y fotografía desde Uruguay con una mirada popular y latinoamericana.</p>
+      </div>
+      <div class="footer-column">
+        <h2>Secciones</h2>
+        <ul>
+          <li><a href="noticias.html">Noticias</a></li>
+          <li><a href="personajes.html">Archivo político</a></li>
+          <li><a href="historia.html">Historia de las izquierdas</a></li>
+          <li><a href="fotografos.html">Nuestros fotógrafos</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h2>Seguinos</h2>
+        <ul>
+          <li><a href="https://www.instagram.com/archivopopular/" rel="me noopener" target="_blank">Instagram</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61560610077791" rel="noopener" target="_blank">Facebook</a></li>
+          <li><a href="https://www.tiktok.com/@archivopopular" rel="noopener" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrapper footer-bottom">
+      <span>Archivo Popular © <span data-current-year>2026</span></span>
+      <span>Montevideo, Uruguay</span>
+    </div>
+  </footer>
+
+  <script src="site.js?v=20260828-1" defer></script>
+  <script src="buscador.js?v=20260828-1" defer></script>
+</body>
+</html>
