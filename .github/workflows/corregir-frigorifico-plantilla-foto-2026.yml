@@ -1,4 +1,4 @@
-name: Corregir Frigorífico Tacuarembó plantilla y foto
+name: Finalizar corrección Frigorífico Tacuarembó
 
 on:
   push:
@@ -10,121 +10,28 @@ permissions:
   contents: write
 
 jobs:
-  corregir:
+  finalizar:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Dependencias
-        run: |
-          python -m pip install --quiet pillow
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-urw-base35
-      - name: Descargar fotografía oficial de Presidencia
-        run: |
-          curl -L --fail --retry 3 'https://medios.presidencia.gub.uy/tav_portal/2026/noticias/AP_146/_09A074213694.jpg.jpeg' -o /tmp/frigorifico-presidencia.jpg
-      - name: Corregir placa y créditos sin tocar el contenido de la nota
+      - name: Corregir pie de foto y limpiar flujos temporales
         run: |
           python - <<'PY'
-          from PIL import Image, ImageDraw, ImageFont
           from pathlib import Path
-          import shutil, json
-
-          root=Path('.')
-          news_rel='assets/news/frigorifico-tacuarembo-camilo-dos-santos-presidencia-2026.jpg'
-          social_rel='assets/social/archivo-popular-frigorifico-tacuarembo-1300-seguro-paro-2026-master.png'
-          news=root/news_rel
-          social=root/social_rel
-          news.parent.mkdir(parents=True,exist_ok=True)
-          social.parent.mkdir(parents=True,exist_ok=True)
-          shutil.copy2('/tmp/frigorifico-presidencia.jpg', news)
-
-          W,H=2160,2700
-          PHOTO_H=1590
-          src=Image.open('/tmp/frigorifico-presidencia.jpg').convert('RGB')
-          scale=max(W/src.width,PHOTO_H/src.height)
-          res=src.resize((round(src.width*scale),round(src.height*scale)),Image.Resampling.LANCZOS)
-          left=(res.width-W)//2
-          top=(res.height-PHOTO_H)//2
-          photo=res.crop((left,top,left+W,top+PHOTO_H))
-          canvas=Image.new('RGBA',(W,H),(243,240,233,255))
-          canvas.paste(photo.convert('RGBA'),(0,0))
-
-          overlay=Image.new('RGBA',(W,520),(0,0,0,0))
-          od=ImageDraw.Draw(overlay)
-          for y in range(520):
-              frac=y/520
-              alpha=int(255*0.70*(1-frac/0.72)) if frac<=0.72 else 0
-              od.line((0,y,W,y),fill=(0,0,0,max(0,alpha)))
-          canvas.alpha_composite(overlay,(0,0))
-
-          logo=Image.open('logo.png').convert('RGBA').resize((560,181),Image.Resampling.LANCZOS)
-          canvas.alpha_composite(logo,(800,42))
-
-          d=ImageDraw.Draw(canvas)
-          RED='#E30613'; BLACK='#090909'; WHITE='#FFFFFF'; GRAY='#BEBAB2'
-          bold='/usr/share/fonts/opentype/urw-base35/NimbusSans-Bold.otf'
-
-          credit='FOTO DE ARCHIVO: CAMILO DOS SANTOS / PRESIDENCIA'
-          fc=ImageFont.truetype(bold,32)
-          bb=d.textbbox((0,0),credit,font=fc)
-          cw=bb[2]-bb[0]+68
-          d.rectangle((120,1510,120+cw,1590),fill=WHITE)
-          th=bb[3]-bb[1]
-          ty=1510+(80-th)//2-bb[1]
-          d.text((154,ty),credit,font=fc,fill=BLACK)
-
-          d.rectangle((0,1590,W,2576),fill=BLACK)
-          d.rectangle((0,1590,W,1602),fill=RED)
-          fh=ImageFont.truetype(bold,150)
-          lines=['1.300 TRABAJADORES','DEL FRIGORÍFICO','TACUAREMBÓ QUEDAN','EN SEGURO DE PARO']
-          baselines=[1782,1954,2126,2298]
-          for line,baseline in zip(lines,baselines):
-              d.text((120,baseline),line,font=fh,fill=WHITE,anchor='ls')
-
-          fm=ImageFont.truetype(bold,48)
-          d.text((120,2510),'4 DE SETIEMBRE DE 2026',font=fm,fill=RED,anchor='ls')
-          d.text((2040,2510),'TACUAREMBÓ · URUGUAY',font=fm,fill=GRAY,anchor='rs')
-
-          d.rectangle((0,2576,W,H),fill=WHITE)
-          d.rectangle((0,2576,620,H),fill=RED)
-          fn=ImageFont.truetype(bold,58)
-          fhnd=ImageFont.truetype(bold,62)
-          d.text((310,2657),'NOTICIA',font=fn,fill=WHITE,anchor='ms')
-          d.text((2040,2657),'@archivopopular',font=fhnd,fill=BLACK,anchor='rs')
-          canvas.convert('RGB').save(social,'PNG',optimize=True)
-
-          old_img='assets/news/frigorifico-tacuarembo-conflicto-subrayado-2026.jpg'
-          old_credit='Subrayado · 3 de setiembre de 2026'
-          new_credit='Camilo Dos Santos / Presidencia de la República · Archivo, 23 de abril de 2026'
-          old_alt='Frigorífico Tacuarembó durante el conflicto laboral de setiembre de 2026'
-          new_alt='Trabajadores en la planta del Frigorífico Tacuarembó durante la inauguración de la ampliación del 23 de abril de 2026'
-          for rel in ['noticias/frigorifico-tacuarembo-1300-seguro-paro-2026.html','index.html','noticias.html']:
-              p=root/rel
-              t=p.read_text(encoding='utf-8')
-              t=t.replace(old_img,news_rel).replace(old_credit,new_credit).replace(old_alt,new_alt)
-              t=t.replace('Imagen del conflicto en el Frigorífico Tacuarembó. Foto: Subrayado · 3 de setiembre de 2026.','Trabajadores en la planta del Frigorífico Tacuarembó. Foto de archivo: Camilo Dos Santos / Presidencia de la República · 23 de abril de 2026.')
-              p.write_text(t,encoding='utf-8')
-
-          p=root/'data/noticias.json'
-          data=json.loads(p.read_text(encoding='utf-8'))
-          for item in data:
-              if item.get('id')=='frigorifico-tacuarembo-1300-seguro-paro-2026':
-                  item['image']=news_rel
-                  item['imageAlt']=new_alt
-                  item['photoCredit']=new_credit
-          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-
-          # Rehacer índice de búsqueda para reflejar los créditos/metadatos actuales.
-          import subprocess
-          subprocess.run(['node','scripts/generar-buscador.mjs'],check=True)
+          p=Path('noticias/frigorifico-tacuarembo-1300-seguro-paro-2026.html')
+          t=p.read_text(encoding='utf-8')
+          t=t.replace(
+            'Imagen del conflicto en el Frigorífico Tacuarembó. Foto: Camilo Dos Santos / Presidencia de la República · Archivo, 23 de abril de 2026.',
+            'Trabajadores en la planta del Frigorífico Tacuarembó. Foto de archivo: Camilo Dos Santos / Presidencia de la República · 23 de abril de 2026.'
+          )
+          p.write_text(t,encoding='utf-8')
           PY
-      - name: Retirar foto anterior de Subrayado y publicar corrección
-        run: |
           git config user.name 'Archivo Popular Bot'
           git config user.email 'actions@users.noreply.github.com'
-          git rm -f assets/news/frigorifico-tacuarembo-conflicto-subrayado-2026.jpg || true
-          git add assets/news/frigorifico-tacuarembo-camilo-dos-santos-presidencia-2026.jpg assets/social/archivo-popular-frigorifico-tacuarembo-1300-seguro-paro-2026-master.png noticias/frigorifico-tacuarembo-1300-seguro-paro-2026.html data/noticias.json data/buscador.json index.html noticias.html
-          git commit -m 'Corregir plantilla y fotografía del Frigorífico Tacuarembó'
+          git rm -f .github/workflows/preview-fotos-presidencia-tacuarembo-2026.yml || true
+          git rm -f .github/workflows/corregir-frigorifico-plantilla-foto-2026.yml || true
+          git add noticias/frigorifico-tacuarembo-1300-seguro-paro-2026.html
+          git commit -m 'Finalizar corrección visual del Frigorífico Tacuarembó'
           git push origin HEAD:main
