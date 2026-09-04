@@ -35,3 +35,5 @@ jobs:
         with:
           name: archivo-popular-frigorifico-tacuarembo-master
           path: archivo-popular-frigorifico-tacuarembo-1300-seguro-paro-2026-master.png
+
+# trigger final 2026-09-04
