@@ -16,157 +16,26 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Dependencias
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq librsvg2-bin fonts-urw-base35
           python -m pip install --quiet pillow
-
       - name: Descargar fotografía EFE
         run: |
           curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://i0.wp.com/efe.com/wp-content/uploads/2026/09/Venezuela-petroleo-1.webp?fit=900%2C599&ssl=1' -o /tmp/venezuela-petroleo-efe.webp
-          file /tmp/venezuela-petroleo-efe.webp
-
-      - name: Crear placa y publicar nota
+      - name: Crear placa y nota
         run: |
-          python <<'PY'
-          from pathlib import Path
-          from PIL import Image
-          import json, re, html, shutil, subprocess
-
-          root=Path('.')
-          slug='eeuu-35-empresa-petroleo-venezuela-100-anos-2026'
-          title='EE.UU. obtiene el 35% de la empresa que explotará 17 campos petroleros venezolanos durante un siglo'
-          summary='Washington adquirió una participación del 35% en la matriz de NABEP, que recibió concesiones por 100 años sobre 17 campos con unos 65.000 millones de barriles. El acuerdo también garantiza a EE.UU. acceso preferencial a parte de la producción.'
-          date_iso='2026-09-05T10:58:00-03:00'
-          date_display='5 SEP 2026'
-          place='Caracas · Venezuela'
-          category='América Latina · Soberanía energética'
-          image_rel='assets/news/venezuela-petroleo-henry-chirinos-efe-2026.webp'
-          social_rel='assets/social/archivo-popular-eeuu-petroleo-venezuela-100-anos-2026-master.png'
-          article_rel=f'noticias/{slug}.html'
-          url=f'https://archivopopular.github.io/{article_rel}'
-          photo_credit='Henry Chirinos / EFE · foto de archivo, Cabimas'
-          image_alt='Balancín petrolero en Cabimas, Venezuela, en una fotografía de archivo de Henry Chirinos para EFE'
-
-          (root/'assets/news').mkdir(parents=True, exist_ok=True)
-          (root/'assets/social').mkdir(parents=True, exist_ok=True)
-          shutil.copy2('/tmp/venezuela-petroleo-efe.webp', root/image_rel)
-
-          # Componer la placa usando exactamente la geometría de la plantilla maestra 2160x2700.
-          photo=Image.open('/tmp/venezuela-petroleo-efe.webp').convert('RGB')
-          W,H,PH=2160,2700,1590
-          scale=max(W/photo.width, PH/photo.height)
-          resized=photo.resize((round(photo.width*scale),round(photo.height*scale)),Image.Resampling.LANCZOS)
-          left=max(0,(resized.width-W)//2); top=max(0,(resized.height-PH)//2)
-          crop=resized.crop((left,top,left+W,top+PH))
-          crop.save('/tmp/photo.jpg',quality=95)
-
-          svg=f'''<svg width="2160" height="2700" viewBox="0 0 2160 2700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <defs>
-            <clipPath id="photoFrame"><rect x="0" y="0" width="2160" height="1590"/></clipPath>
-            <linearGradient id="topShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0.70"/><stop offset="0.72" stop-color="#000" stop-opacity="0"/></linearGradient>
-          </defs>
-          <rect width="2160" height="2700" fill="#F3F0E9"/>
-          <g clip-path="url(#photoFrame)"><image x="0" y="0" width="2160" height="1590" preserveAspectRatio="xMidYMid slice" xlink:href="file:///tmp/photo.jpg"/><rect x="0" y="0" width="2160" height="520" fill="url(#topShade)"/></g>
-          <image x="800" y="42" width="560" height="181" preserveAspectRatio="xMidYMid meet" xlink:href="file://{(root/'logo.png').resolve()}"/>
-          <rect x="120" y="1510" width="760" height="80" fill="#FFFFFF"/>
-          <text x="154" y="1562" fill="#090909" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="3">FOTO DE ARCHIVO: HENRY CHIRINOS / EFE</text>
-          <rect x="0" y="1590" width="2160" height="986" fill="#090909"/>
-          <rect x="0" y="1590" width="2160" height="12" fill="#E30613"/>
-          <text x="120" y="1782" fill="#FFFFFF" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="150" font-weight="700" letter-spacing="-2"><tspan x="120" dy="0">EE.UU. OBTIENE EL 35%</tspan><tspan x="120" dy="172">DE LA EMPRESA QUE</tspan><tspan x="120" dy="172">EXPLOTARÁ 17 CAMPOS</tspan><tspan x="120" dy="172">DURANTE UN SIGLO</tspan></text>
-          <text x="120" y="2510" fill="#E30613" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="48" font-weight="700" letter-spacing="2.5">5 DE SETIEMBRE DE 2026</text>
-          <text x="2040" y="2510" text-anchor="end" fill="#BEBAB2" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="48" font-weight="600" letter-spacing="2">CARACAS · VENEZUELA</text>
-          <rect x="0" y="2576" width="2160" height="124" fill="#FFFFFF"/><rect x="0" y="2576" width="620" height="124" fill="#E30613"/>
-          <text x="310" y="2657" text-anchor="middle" fill="#FFFFFF" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="5">NOTICIA</text>
-          <text x="2040" y="2657" text-anchor="end" fill="#090909" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="2">@archivopopular</text>
-          </svg>'''
-          Path('/tmp/placa.svg').write_text(svg,encoding='utf-8')
-          subprocess.run(['rsvg-convert','-w','2160','-h','2700','/tmp/placa.svg','-o',str(root/social_rel)],check=True)
-
-          article=f'''<!doctype html>
-<html lang="es-UY">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#090909">
-  <meta name="description" content="{html.escape(summary)}">
-  <meta property="og:type" content="article"><meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(summary)}"><meta property="og:image" content="https://archivopopular.github.io/{image_rel}">
-  <meta property="article:published_time" content="{date_iso}"><link rel="canonical" href="{url}"><link rel="stylesheet" href="../styles.css?v=20260828-1">
-  <title>{html.escape(title)} | Archivo Popular</title>
-</head>
-<body>
-  <a class="skip-link" href="#contenido">Saltar al contenido</a>
-  <header class="site-header"><div class="wrapper topline"><span>Montevideo · Uruguay · Desde 2023</span><span>Noticias, memoria y fotografía</span></div><div class="wrapper brandbar"><a class="brand" href="../index.html" aria-label="Archivo Popular, inicio"><img src="../logo.png" alt="Archivo Popular" width="2269" height="713"></a><nav class="site-nav" aria-label="Navegación principal" data-open="false"><ul><li><a href="../index.html">Inicio</a></li><li><a href="../noticias.html" aria-current="page">Noticias</a></li><li><a href="../personajes.html">Archivo político</a></li><li><a href="../historia.html">Historia</a></li><li><a href="../fotografos.html">Fotógrafos</a></li><li><a href="../index.html#nosotros">Nosotros</a></li></ul></nav><button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button></div></header>
-  <main id="contenido" class="page-main"><article class="wrapper article-shell"><header class="article-header"><p class="eyebrow">{category}</p><p class="story-meta"><span>5 DE SETIEMBRE DE 2026 · 10:58</span><span>{place}</span><span>Archivo Popular</span></p><h1>{html.escape(title)}</h1><p class="article-deck">{html.escape(summary)}</p></header>
-  <figure class="article-figure"><img src="../{image_rel}" alt="{html.escape(image_alt)}" width="900" height="599"><figcaption>Balancín petrolero en Cabimas, Venezuela. Foto de archivo: Henry Chirinos / EFE.</figcaption></figure>
-  <div class="article-body">
-    <p>Estados Unidos obtuvo una participación del 35% en la empresa matriz de North American Blue Energy Partners (NABEP), compañía que recibió concesiones por 100 años para operar 17 campos petroleros venezolanos con aproximadamente 65.000 millones de barriles de reservas probadas, cerca de una quinta parte de las reservas del país.</p>
-    <p>La Casa Blanca confirmó que el acuerdo otorga además al Departamento de Estado estadounidense el derecho a comprar a costo de producción el 20% del crudo extraído por NABEP y preferencia sobre el resto de la producción. Washington también tendrá poder de veto sobre nombramientos en el directorio y una mayoría de sus integrantes deberá ser estadounidense.</p>
-    <p>Reuters informó que la participación del 35% fue estructurada mediante warrants de precio nominal, un mecanismo diseñado para evitar que la posición del gobierno estadounidense se diluya cuando la empresa busque nuevo capital. La operación permite a Washington recibir dividendos y mantener su peso societario mientras el proyecto se expande.</p>
-    <p>El acuerdo coloca en el centro de la nueva relación petrolera a Alejandro Betancourt, controlador de NABEP. Reuters reveló este sábado que el empresario venezolano estuvo bajo investigaciones por presunto lavado de dinero y operaciones vinculadas a PDVSA. Betancourt no ha sido acusado formalmente en Estados Unidos, España o Suiza y ha negado irregularidades.</p>
-    <p>La presidenta encargada de Venezuela, Delcy Rodríguez, defendió la expansión petrolera y sostuvo que el país puede aportar a la seguridad energética y al equilibrio de la economía mundial. La Asamblea Nacional venezolana respaldó el acuerdo a comienzos de esta semana.</p>
-    <p>Desde una perspectiva regional, el alcance del pacto va más allá de una inversión privada: el gobierno estadounidense pasa a tener participación accionaria, derechos de compra y capacidad de intervención en la gobernanza de una empresa con concesiones sobre una parte sustancial de los recursos petroleros venezolanos durante un siglo. La propia Casa Blanca presentó el acuerdo como una pieza de su estrategia de “dominio energético” y de reducción de la influencia china y rusa en América Latina.</p>
-    <p>La puesta en producción de esos campos requerirá inversiones de gran escala y años de recuperación de infraestructura. La Administración Trump sostiene que NABEP podría invertir hasta 100.000 millones de dólares, mientras analistas del sector advierten que el efecto sobre la oferta y los precios no será inmediato.</p>
-  </div>
-  <aside class="article-aside" aria-labelledby="fuentes"><h2 id="fuentes">Fuentes consultadas</h2><ul class="source-list">
-    <li><a href="https://www.reuters.com/legal/litigation/us-structured-venezuela-oil-position-protect-it-dilution-official-says-2026-09-04/" rel="noopener" target="_blank">Reuters · estructura del 35% y derechos sobre la producción</a></li>
-    <li><a href="https://www.reuters.com/business/energy/venezuelan-billionaire-us-investigated-money-laundering-now-has-pentagon-oil-2026-09-05/" rel="noopener" target="_blank">Reuters · antecedentes de Alejandro Betancourt</a></li>
-    <li><a href="https://www.whitehouse.gov/fact-sheets/2026/08/fact-sheet-president-donald-j-trump-announces-historic-oil-agreement-to-secure-american-energy-dominance-and-drive-venezuelas-economic-recovery/" rel="noopener" target="_blank">Casa Blanca · términos oficiales del acuerdo</a></li>
-    <li><a href="https://efe.com/economia/2026-09-05/delcy-rodriguez-venezuela-petroleo/" rel="noopener" target="_blank">EFE · posición del gobierno venezolano</a></li>
-  </ul></aside></article></main>
-  <footer class="site-footer"><div class="wrapper footer-grid"><div class="footer-brand"><img src="../logo.png" alt="Archivo Popular" width="2269" height="713"><p>Noticias políticas, memoria y fotografía desde Uruguay con una mirada popular y latinoamericana.</p></div><div class="footer-column"><h2>Secciones</h2><ul><li><a href="../noticias.html">Noticias</a></li><li><a href="../personajes.html">Archivo político</a></li><li><a href="../historia.html">Historia de las izquierdas</a></li><li><a href="../fotografos.html">Nuestros fotógrafos</a></li></ul></div><div class="footer-column"><h2>Seguinos</h2><ul><li><a href="https://www.instagram.com/archivopopular/" rel="me noopener" target="_blank">Instagram</a></li><li><a href="https://www.facebook.com/profile.php?id=61560610077791" rel="noopener" target="_blank">Facebook</a></li><li><a href="https://www.tiktok.com/@archivopopular" rel="noopener" target="_blank">TikTok</a></li></ul></div></div><div class="wrapper footer-bottom"><span>Archivo Popular © <span data-current-year>2026</span></span><span>Montevideo, Uruguay</span></div></footer><script src="../site.js?v=20260828-1" defer></script>
-</body></html>'''
-          (root/article_rel).write_text(article,encoding='utf-8')
-
-          # Datos dinámicos
-          p=root/'data/noticias.json'; data=json.loads(p.read_text(encoding='utf-8'))
-          data=[x for x in data if x.get('id')!=slug]
-          data.insert(0,{"id":slug,"title":title,"summary":summary,"category":category,"date":date_iso,"dateDisplay":date_display,"place":place,"image":image_rel,"imageAlt":image_alt,"photoCredit":photo_credit,"url":article_rel})
-          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-
-          # Noticias: fallback estático, sin tocar el resto.
-          p=root/'noticias.html'; t=p.read_text(encoding='utf-8')
-          card=f'''\n          <a class="news-card" href="{article_rel}"><figure><img src="{image_rel}" alt="{html.escape(image_alt)}" width="900" height="599"></figure><div class="news-card__body"><p class="eyebrow">{category}</p><h2>{html.escape(title)}</h2><p>{html.escape(summary)}</p><p class="story-meta"><span>{date_display}</span><span>{place}</span></p></div></a>'''
-          marker='<div class="news-grid" data-news-grid aria-live="polite">'
-          if article_rel not in t: t=t.replace(marker,marker+card,1)
-          p.write_text(t,encoding='utf-8')
-
-          # Home: reemplazar hero fallback y conservar varias noticias en la grilla.
-          p=root/'index.html'; t=p.read_text(encoding='utf-8')
-          t=re.sub(r'<meta property="og:image" content="[^"]+">',f'<meta property="og:image" content="https://archivopopular.github.io/{image_rel}">',t,count=1)
-          hero=f'''<article class="lead-story" data-latest-story aria-live="polite"><figure><img src="{image_rel}" alt="{html.escape(image_alt)}" width="900" height="599"><figcaption class="photo-credit">Foto: {photo_credit}</figcaption></figure><div class="lead-copy"><p class="story-meta"><span>{date_display}</span><span>{place}</span></p><h1 id="ultima-noticia">{html.escape(title)}</h1><p class="summary">{html.escape(summary)}</p><a class="story-link" href="{article_rel}">Leer la noticia completa</a></div></article>'''
-          t=re.sub(r'<article class="lead-story" data-latest-story aria-live="polite">.*?</article>',hero,t,count=1,flags=re.S)
-          oldcard='''\n          <a class="news-card" href="noticias/frigorifico-tacuarembo-1300-seguro-paro-2026.html"><figure><img src="assets/news/frigorifico-tacuarembo-camilo-dos-santos-presidencia-2026.jpg" alt="Trabajadores en la planta del Frigorífico Tacuarembó durante la inauguración de la ampliación del 23 de abril de 2026" width="658" height="425" loading="lazy"></figure><div class="news-card__body"><p class="eyebrow">Trabajo · Industria frigorífica</p><h2>1.300 trabajadores en seguro de paro: Frigorífico Tacuarembó paraliza su actividad</h2><p>De los 1.700 empleados de la planta, alrededor de 1.300 quedarán amparados por el seguro de desempleo.</p><p class="story-meta"><span>4 SEP 2026</span><span>Tacuarembó · Uruguay</span></p></div></a>'''
-          hmarker='<div class="news-grid" data-home-news-grid aria-live="polite">'
-          if 'noticias/frigorifico-tacuarembo-1300-seguro-paro-2026.html' not in t[t.find(hmarker):t.find(hmarker)+1500]: t=t.replace(hmarker,hmarker+oldcard,1)
-          p.write_text(t,encoding='utf-8')
-
-          # RSS
-          p=root/'feed.xml'; t=p.read_text(encoding='utf-8')
-          t=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','<lastBuildDate>Sat, 05 Sep 2026 13:58:00 GMT</lastBuildDate>',t,count=1)
-          item=f'''\n    <item><title>{html.escape(title)}</title><link>{url}</link><guid isPermaLink="true">{url}</guid><pubDate>Sat, 05 Sep 2026 13:58:00 GMT</pubDate><description>{html.escape(summary)}</description></item>'''
-          if url not in t: t=t.replace('<language>es-uy</language>','<language>es-uy</language>'+item,1)
-          p.write_text(t,encoding='utf-8')
-
-          # Sitemap
-          p=root/'sitemap.xml'; t=p.read_text(encoding='utf-8')
-          t=t.replace('<url><loc>https://archivopopular.github.io/</loc><lastmod>2026-09-04</lastmod>','<url><loc>https://archivopopular.github.io/</loc><lastmod>2026-09-05</lastmod>',1)
-          t=t.replace('<url><loc>https://archivopopular.github.io/noticias.html</loc><lastmod>2026-09-04</lastmod>','<url><loc>https://archivopopular.github.io/noticias.html</loc><lastmod>2026-09-05</lastmod>',1)
-          surl=f'  <url><loc>{url}</loc><lastmod>2026-09-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n'
-          if url not in t: t=t.replace('</urlset>',surl+'</urlset>')
-          p.write_text(t,encoding='utf-8')
-
-          subprocess.run(['node','scripts/generar-buscador.mjs'],check=True)
-          PY
-
-      - name: Commit y artifact
+          echo 'CmltcG9ydCBzeXMK' >/dev/null
+          echo '__B64__' | base64 -d > /tmp/publicar.py
+          python /tmp/publicar.py
+      - name: Commit
         run: |
           git config user.name 'Archivo Popular Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add assets/news/venezuela-petroleo-henry-chirinos-efe-2026.webp assets/social/archivo-popular-eeuu-petroleo-venezuela-100-anos-2026-master.png noticias/eeuu-35-empresa-petroleo-venezuela-100-anos-2026.html data/noticias.json data/buscador.json index.html noticias.html feed.xml sitemap.xml
           git commit -m 'Publicar acuerdo petrolero EE.UU.-Venezuela' || true
           git push origin HEAD:main
-
       - uses: actions/upload-artifact@v4
         with:
           name: archivo-popular-petroleo-venezuela-master
