@@ -1,0 +1,29 @@
+name: Limpiar temporales Kast Milei
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/limpiar-kast-milei-temporales.yml'
+permissions:
+  contents: write
+jobs:
+  limpiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Eliminar archivos temporales
+        run: |
+          git config user.name 'ArchivoPopular'
+          git config user.email 'santiagoares3@gmail.com'
+          git rm -f --ignore-unmatch \
+            .github/workflows/inspeccionar-foto-kast-milei.yml \
+            .github/workflows/descargar-fotos-kast-milei.yml \
+            .github/workflows/publicar-kast-milei-2026.yml \
+            .github/workflows/publicar-kast-milei-2026-v2.yml \
+            .github/workflows/publicar-kast-milei-2026-v3.yml \
+            .github/scripts/publicar_kast_milei_2026_offline.py \
+            .github/workflows/limpiar-kast-milei-temporales.yml
+          git commit -m 'Limpiar archivos temporales de publicación Kast Milei'
+          git push origin main
