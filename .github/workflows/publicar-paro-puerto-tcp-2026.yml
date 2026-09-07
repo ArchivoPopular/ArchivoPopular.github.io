@@ -1,0 +1,36 @@
+name: Publicar paro puerto TCP 2026
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publicar-paro-puerto-tcp-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Dependencias
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq librsvg2-bin fonts-urw-base35
+          python -m pip install --quiet pillow
+      - name: Ejecutar publicación
+        run: python .github/scripts/publicar_puerto_tcp_2026.py
+      - name: Commit
+        run: |
+          git config user.name 'ArchivoPopular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news assets/social noticias data index.html noticias.html feed.xml sitemap.xml
+          git commit -m 'Publicar conflicto sindical en Terminal Cuenca del Plata'
+          git push origin main
+      - uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-paro-puerto-tcp-master
+          path: assets/social/archivo-popular-paro-puerto-tcp-2026-master.png
