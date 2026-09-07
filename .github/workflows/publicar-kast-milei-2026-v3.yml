@@ -1,0 +1,41 @@
+name: Publicar Kast Milei 2026 v3
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publicar-kast-milei-2026-v3.yml'
+permissions:
+  contents: write
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Dependencias
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-urw-base35 unzip
+          python -m pip install --quiet pillow
+      - name: Recuperar fotografía oficial desde artefacto previo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/gallery
+          curl -fsSL -H "Authorization: Bearer ${GH_TOKEN}" -H "Accept: application/vnd.github+json" https://api.github.com/repos/ArchivoPopular/ArchivoPopular.github.io/actions/artifacts/10030499141/zip -o /tmp/gallery.zip
+          unzip -q /tmp/gallery.zip -d /tmp/gallery
+          test -f /tmp/gallery/_dsc7150.jpg
+      - name: Ejecutar publicación
+        run: python .github/scripts/publicar_kast_milei_2026_offline.py
+      - name: Commit
+        run: |
+          git config user.name 'ArchivoPopular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news assets/social noticias data index.html noticias.html feed.xml sitemap.xml
+          git commit -m 'Publicar reacción de Kast a declaraciones de Milei'
+          git push origin main
+      - uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-kast-milei-master-v3
+          path: assets/social/archivo-popular-kast-milei-zurdos-golpe-2026-master.png
