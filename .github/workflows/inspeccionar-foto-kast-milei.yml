@@ -13,10 +13,11 @@ jobs:
       - name: Inspeccionar galería oficial
         run: |
           python - <<'PY'
-          import requests,re
+          import requests,re,urllib3
           from urllib.parse import urljoin
+          urllib3.disable_warnings()
           u='https://prensa.presidencia.cl/fotografia.aspx?id=339732'
-          t=requests.get(u,timeout=30).text
+          t=requests.get(u,timeout=30,verify=False).text
           print('status',len(t))
           for m in re.findall(r'(?:href|src)=[\"\']([^\"\']+)',t,re.I):
               if any(x in m.lower() for x in ['jpg','jpeg','png','foto','download','galeria']):
