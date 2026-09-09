@@ -48,8 +48,19 @@ document.querySelectorAll("[data-current-year]").forEach((element) => {
   element.textContent = String(new Date().getFullYear());
 });
 
-// Publicaciones del 8 de setiembre de 2026.
+// Publicaciones del 9 de setiembre de 2026.
 // Se inyectan sobre las grillas estáticas para mantener portada y Noticias actualizadas.
+const blancaStory = {
+  url: new URL("noticias/blanca-rodriguez-penalizar-discursos-odio-redes-medios-2026.html", siteRoot).href,
+  image: "https://imagenes.montevideo.com.uy/imgnoticias/202410/_W933_80/899620.jpg",
+  title: "Blanca Rodríguez: “Hay que penalizar los discursos de odio” en redes y medios",
+  summary: "La senadora del Frente Amplio planteó discutir sanciones y herramientas educativas frente a los discursos de odio. Aclaró que todavía no existe un proyecto de ley presentado.",
+  category: "Política nacional · Discursos de odio y convivencia",
+  date: "9 SEP 2026",
+  place: "San José · Uruguay",
+  credit: "Foto: Gastón Britos / FocoUy · Archivo"
+};
+
 const fmedStory = {
   url: new URL("noticias/udelar-movilizacion-medicina-violencia-genero-2026.html", siteRoot).href,
   image: new URL("assets/news/fmed-movilizacion-santiago-ares-2026.webp", siteRoot).href,
@@ -83,7 +94,7 @@ const makeStoryCard = (story, storyId, alt) => {
 
 const latestStory = document.querySelector("[data-latest-story]");
 if (latestStory && !window.location.pathname.includes("/noticias/")) {
-  latestStory.innerHTML = `<figure><img src="${fmedStory.image}" alt="Movilización de la comunidad universitaria frente a la Facultad de Medicina en Montevideo"><figcaption class="photo-credit">${fmedStory.credit} · 8 de setiembre de 2026</figcaption></figure><div class="lead-copy"><p class="story-meta"><span>${fmedStory.date}</span><span>${fmedStory.place}</span></p><h1 id="ultima-noticia">${fmedStory.title}</h1><p class="summary">${fmedStory.summary}</p><a class="story-link" href="${fmedStory.url}">Leer la noticia completa</a></div>`;
+  latestStory.innerHTML = `<figure><img src="${blancaStory.image}" alt="Blanca Rodríguez durante una actividad pública"><figcaption class="photo-credit">${blancaStory.credit}</figcaption></figure><div class="lead-copy"><p class="story-meta"><span>${blancaStory.date}</span><span>${blancaStory.place}</span></p><h1 id="ultima-noticia">${blancaStory.title}</h1><p class="summary">${blancaStory.summary}</p><a class="story-link" href="${blancaStory.url}">Leer la noticia completa</a></div>`;
 
   const homeGrid = document.querySelector("[data-home-news-grid]");
   if (homeGrid) {
@@ -97,6 +108,9 @@ if (latestStory && !window.location.pathname.includes("/noticias/")) {
     if (!homeGrid.querySelector('[data-story-id="pisa-2025-uruguay"]') && !homeGrid.querySelector('a[href*="pisa-2025-uruguay-ciencias-matematica-lectura-2026.html"]')) {
       homeGrid.prepend(makeStoryCard(pisaStory, "pisa-2025-uruguay", "Presentación oficial de los resultados PISA Uruguay 2025 realizada por la ANEP en Montevideo"));
     }
+    if (!homeGrid.querySelector('[data-story-id="fmed-movilizacion-2026"]') && !homeGrid.querySelector('a[href*="udelar-movilizacion-medicina-violencia-genero-2026.html"]')) {
+      homeGrid.prepend(makeStoryCard(fmedStory, "fmed-movilizacion-2026", "Movilización de la comunidad universitaria frente a la Facultad de Medicina en Montevideo"));
+    }
   }
 }
 
@@ -107,5 +121,8 @@ if (newsGrid) {
   }
   if (!newsGrid.querySelector('[data-story-id="fmed-movilizacion-2026"]') && !newsGrid.querySelector('a[href*="udelar-movilizacion-medicina-violencia-genero-2026.html"]')) {
     newsGrid.prepend(makeStoryCard(fmedStory, "fmed-movilizacion-2026", "Movilización de la comunidad universitaria frente a la Facultad de Medicina en Montevideo"));
+  }
+  if (!newsGrid.querySelector('[data-story-id="blanca-discursos-odio-2026"]') && !newsGrid.querySelector('a[href*="blanca-rodriguez-penalizar-discursos-odio-redes-medios-2026.html"]')) {
+    newsGrid.prepend(makeStoryCard(blancaStory, "blanca-discursos-odio-2026", "Blanca Rodríguez durante una actividad pública"));
   }
 }
