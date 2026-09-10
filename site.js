@@ -6,6 +6,15 @@ const siteRoot = new URL(".", siteScript?.src || window.location.href);
 
 window.archivoPopularRoot = siteRoot.href;
 
+// Favicon de Archivo Popular. Se inserta en todas las páginas que cargan site.js.
+if (!document.querySelector('link[rel="icon"]')) {
+  const favicon = document.createElement("link");
+  favicon.rel = "icon";
+  favicon.type = "image/svg+xml";
+  favicon.href = new URL("favicon.svg", siteRoot).href;
+  document.head.append(favicon);
+}
+
 if (brandbar && menuButton) {
   const headerActions = document.createElement("div");
   const searchLink = document.createElement("a");
