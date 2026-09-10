@@ -1,0 +1,38 @@
+name: Render Botana salud mental 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-botana-2026.svg'
+      - '.github/workflows/tmp-render-botana-2026.yml'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas y tipografía
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografía real
+        run: |
+          curl -L --fail 'https://imagenes.montevideo.com.uy/imgnoticias/202609/_W933_80/970646.jpg' -o botana-photo.jpg
+
+      - name: Preparar recorte proporcional
+        run: |
+          convert botana-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 botana-photo-crop.jpg
+
+      - name: Renderizar PNG máster
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-botana-2026.svg -o archivo-popular-botana-salud-mental-2026-master.png
+          file archivo-popular-botana-salud-mental-2026-master.png
+
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-botana-salud-mental-2026
+          path: archivo-popular-botana-salud-mental-2026-master.png
+          retention-days: 7
