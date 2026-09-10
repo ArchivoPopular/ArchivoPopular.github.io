@@ -1,0 +1,33 @@
+name: Render Peru Escudo Americas 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-peru-escudo-2026.svg'
+      - '.github/workflows/tmp-render-peru-escudo-2026.yml'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas y tipografía
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+      - name: Descargar fotografía real de EFE
+        run: |
+          curl -L --fail 'https://i0.wp.com/efe.com/wp-content/uploads/2026/09/Rubio-Peru-1.webp?fit=900%2C600&ssl=1' -o peru-efe.webp
+      - name: Preparar recorte proporcional
+        run: |
+          convert peru-efe.webp -resize '2160x1590^' -gravity center -extent 2160x1590 peru-photo-crop.jpg
+      - name: Renderizar PNG máster
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-peru-escudo-2026.svg -o archivo-popular-peru-escudo-americas-2026-master.png
+          file archivo-popular-peru-escudo-americas-2026-master.png
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-peru-escudo-americas-2026
+          path: archivo-popular-peru-escudo-americas-2026-master.png
+          retention-days: 7
