@@ -1,0 +1,51 @@
+name: Configurar nombre del sitio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/site-name.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  site-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Declarar Archivo Popular como nombre del sitio
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          if 'property="og:site_name"' not in s:
+              s = s.replace(
+                  '<meta property="og:title" content="Archivo Popular">',
+                  '<meta property="og:title" content="Archivo Popular">\n  <meta property="og:site_name" content="Archivo Popular">'
+              )
+
+          if '"@type": "WebSite"' not in s:
+              block = '''  <script type="application/ld+json">\n  {\n    "@context": "https://schema.org",\n    "@type": "WebSite",\n    "name": "Archivo Popular",\n    "alternateName": "Archivo Popular Uruguay",\n    "url": "https://archivopopular.github.io/"\n  }\n  </script>\n'''
+              s = s.replace('  <title>Archivo Popular | Noticias y memoria desde Uruguay</title>\n', '  <title>Archivo Popular | Noticias y memoria desde Uruguay</title>\n' + block)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Guardar cambios
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git config user.name "ArchivoPopular"
+          git config user.email "santiagoares3@gmail.com"
+          git add index.html
+          git commit -m "Declara Archivo Popular como nombre del sitio"
+          git push origin main
