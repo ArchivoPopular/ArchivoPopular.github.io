@@ -1,0 +1,38 @@
+name: Mantener favicon
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.html"
+      - "favicon.svg"
+      - "scripts/asegurar-favicon.mjs"
+      - ".github/workflows/favicon.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  favicon:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Declarar favicon en las páginas
+        run: node scripts/asegurar-favicon.mjs
+
+      - name: Guardar cambios
+        run: |
+          if git diff --quiet; then
+            echo "No hay cambios pendientes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html' 'noticias/*.html'
+          git commit -m "Declara favicon en páginas del sitio"
+          git push
