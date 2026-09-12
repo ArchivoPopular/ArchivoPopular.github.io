@@ -6,9 +6,6 @@ on:
       - 'tmp-render-flavio-dark-horse-2026.svg'
       - '.github/workflows/tmp-render-flavio-dark-horse-2026.yml'
 
-permissions:
-  contents: write
-
 jobs:
   render:
     runs-on: ubuntu-latest
@@ -20,26 +17,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
 
-      - name: Descargar fotografía real de AP
+      - name: Preparar fotografía real
         run: |
-          curl -L --fail 'https://dims.apnews.com/dims4/default/61cb711/2147483647/strip/true/crop/5616x3744%2B0%2B0/resize/1600x1067%21/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F32%2F4f%2F0a30130a451ca452747afeecc9d7%2F0985b79e037c46419db839a3be4f77b0' -o flavio-ap.jpg
-          convert flavio-ap.jpg -auto-orient -quality 96 flavio-ap-clean.jpg
-
-      - name: Guardar fotografía en la web
-        run: |
-          mkdir -p assets/news
-          cp flavio-ap-clean.jpg assets/news/flavio-bolsonaro-dark-horse-ap-2026.jpg
-          git config user.name "Archivo Popular"
-          git config user.email "santiagoares3@gmail.com"
-          git add assets/news/flavio-bolsonaro-dark-horse-ap-2026.jpg
-          if ! git diff --cached --quiet; then
-            git commit -m "Agrega foto real de Flavio Bolsonaro por caso Dark Horse"
-            git push
-          fi
-
-      - name: Preparar recorte proporcional
-        run: |
-          convert flavio-ap-clean.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 flavio-photo-crop.jpg
+          convert assets/news/flavio-bolsonaro-barretos-joel-silva-2026.webp -auto-orient -quality 96 flavio-photo.jpg
+          convert flavio-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 flavio-photo-crop.jpg
 
       - name: Renderizar PNG máster
         run: |
