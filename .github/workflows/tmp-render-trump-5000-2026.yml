@@ -22,7 +22,7 @@ jobs:
 
       - name: Descargar fotografía real de AP
         run: |
-          curl -L --fail 'https://dims.apnews.com/dims4/default/a4297b3/2147483647/strip/true/crop/6000x4000%2B0%2B0/resize/1600x1067%21/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F0f%2Ff0%2F487e607cb83ece6383f1b2db910f%2F455d4638c7514fbcb813741b672e2ac2' -o trump-ap.jpg
+          curl -L --fail 'https://wplginc-wplg-prod.web.arc-cdn.net/resizer/v2/GZWKWL2WAW6GFU7ADI6UH576IE.jpg?auth=fe6a33769ea16dbe2a9e21b55b81d937f4f59fa900ab6253c43f810d5705fc9a&height=3832&width=5748' -o trump-ap.jpg
 
       - name: Guardar fotografía en la web
         run: |
