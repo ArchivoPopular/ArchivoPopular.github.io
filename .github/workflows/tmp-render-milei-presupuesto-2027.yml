@@ -1,0 +1,52 @@
+name: Render Milei Presupuesto 2027
+on:
+  push:
+    paths:
+      - 'tmp-render-milei-presupuesto-2027.svg'
+      - '.github/workflows/tmp-render-milei-presupuesto-2027.yml'
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+      - name: Descargar fotografía real
+        run: |
+          curl -L --fail 'https://tn.com.ar/resizer/v2/el-lunes-14-a-las-15-el-jefe-de-estado-volvera-a-abrir-el-salon-heroes-de-malvinas-foto-presidencia-B2H6CONZ55GTFP5KHPQQOSJF3I.jpeg?auth=5b784a6a68c5421f96f80a9727ad3512b04fa2112e68dc2be793d0591b8978c8' -o milei-photo.jpg
+      - name: Guardar fotografía e integrar noticia
+        run: |
+          mkdir -p assets/news
+          cp milei-photo.jpg assets/news/milei-presupuesto-2027-presidencia-2026.jpg
+          python3 - <<'PY'
+          import json
+          p='data/noticias.json'
+          with open(p,encoding='utf-8') as f: arr=json.load(f)
+          story={'id':'milei-legisladores-presupuesto-2027-2026','title':'Milei reúne a 116 legisladores tras reveses en el Congreso y antes del Presupuesto 2027','summary':'El presidente argentino convocó a los 95 diputados y 21 senadores de La Libertad Avanza para ordenar la estrategia parlamentaria antes del envío del Presupuesto 2027.','category':'América Latina · Presupuesto y Congreso','date':'2026-09-14T10:13:00-03:00','dateDisplay':'14 SEP 2026','place':'Buenos Aires · Argentina','image':'assets/news/milei-presupuesto-2027-presidencia-2026.jpg','imageAlt':'Javier Milei durante una exposición en la Casa Rosada','photoCredit':'Presidencia de la Nación Argentina · archivo','url':'noticias/milei-legisladores-presupuesto-2027-2026.html'}
+          arr=[x for x in arr if x.get('id')!=story['id']]
+          arr.insert(0,story)
+          with open(p,'w',encoding='utf-8') as f: json.dump(arr,f,ensure_ascii=False,indent=2); f.write('\n')
+          PY
+          git config user.name 'Archivo Popular Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/news/milei-presupuesto-2027-presidencia-2026.jpg data/noticias.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra noticia sobre Presupuesto 2027 de Milei'
+            git push
+          fi
+      - name: Preparar recorte proporcional
+        run: |
+          convert milei-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 milei-photo-crop.jpg
+      - name: Renderizar PNG máster
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-milei-presupuesto-2027.svg -o archivo-popular-milei-presupuesto-2027-master.png
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-milei-presupuesto-2027
+          path: archivo-popular-milei-presupuesto-2027-master.png
+          retention-days: 7
