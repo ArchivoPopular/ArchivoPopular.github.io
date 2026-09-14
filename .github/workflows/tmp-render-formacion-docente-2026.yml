@@ -1,0 +1,72 @@
+name: Render Formación Docente 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-formacion-docente-2026.svg'
+      - '.github/workflows/tmp-render-formacion-docente-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas y tipografía
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografía real de FocoUy
+        run: |
+          curl -L --fail -A 'Mozilla/5.0' 'https://www.montevideo.com.uy/Noticias/Formacion-Docente-decreto-paro-de-48-horas-rechazan-dar-clases-virtuales-tras-ocupaciones-uc975121' -o source.html
+          IMG=$(python3 - <<'PY'
+          import re, html
+          s=open('source.html',encoding='utf-8',errors='ignore').read()
+          pats=[
+            r'<meta[^>]+property=["\x27]og:image["\x27][^>]+content=["\x27]([^"\x27]+)',
+            r'<meta[^>]+content=["\x27]([^"\x27]+)["\x27][^>]+property=["\x27]og:image["\x27]'
+          ]
+          for p in pats:
+              m=re.search(p,s,re.I)
+              if m:
+                  print(html.unescape(m.group(1)))
+                  break
+          else:
+              raise SystemExit('No se encontró og:image')
+          PY
+          )
+          echo "$IMG"
+          curl -L --fail -A 'Mozilla/5.0' "$IMG" -o formacion-photo-original
+          convert formacion-photo-original -auto-orient -quality 96 formacion-photo.jpg
+
+      - name: Guardar fotografía en la web
+        run: |
+          mkdir -p assets/news
+          cp formacion-photo.jpg assets/news/formacion-docente-paro-focouy-2026.jpg
+          git config user.name "Archivo Popular"
+          git config user.email "santiagoares3@gmail.com"
+          git add assets/news/formacion-docente-paro-focouy-2026.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m "Agrega foto real de FocoUy para paro de Formación Docente"
+            git push
+          fi
+
+      - name: Preparar recorte proporcional
+        run: |
+          convert formacion-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 formacion-photo-crop.jpg
+
+      - name: Renderizar PNG máster
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-formacion-docente-2026.svg -o archivo-popular-formacion-docente-paro-2026-master.png
+          file archivo-popular-formacion-docente-paro-2026-master.png
+
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-formacion-docente-paro-2026
+          path: archivo-popular-formacion-docente-paro-2026-master.png
+          retention-days: 7
