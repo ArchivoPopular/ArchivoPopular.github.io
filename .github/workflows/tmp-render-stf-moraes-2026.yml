@@ -1,0 +1,39 @@
+name: Render STF Moraes 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-stf-moraes-2026.svg'
+      - '.github/workflows/tmp-render-stf-moraes-2026.yml'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas y tipografía
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografía real
+        run: |
+          curl -L --fail -A 'Mozilla/5.0' 'https://str1.lnmimg.net/img/2026/09/15/d5d74bda8e027823ee4e542504b9c3b7.webp?h=418&w=700' -o stf-photo.webp
+          convert stf-photo.webp -auto-orient -quality 96 stf-photo.jpg
+
+      - name: Preparar recorte proporcional
+        run: |
+          convert stf-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 stf-photo-crop.jpg
+
+      - name: Renderizar PNG máster
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-stf-moraes-2026.svg -o archivo-popular-stf-moraes-2026-master.png
+          file archivo-popular-stf-moraes-2026-master.png
+
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-stf-moraes-2026
+          path: archivo-popular-stf-moraes-2026-master.png
+          retention-days: 7
