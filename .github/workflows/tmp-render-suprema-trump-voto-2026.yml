@@ -43,19 +43,6 @@ jobs:
           curl -L --fail -A 'Mozilla/5.0' "$IMG" -o trump-photo-original
           convert trump-photo-original -auto-orient -quality 96 trump-photo.jpg
 
-      - name: Guardar fotografía en la web
-        run: |
-          mkdir -p assets/news
-          cp trump-photo.jpg assets/news/trump-suprema-voto-correo-ap-2026.jpg
-          git config user.name "Archivo Popular"
-          git config user.email "santiagoares3@gmail.com"
-          git pull --rebase origin main
-          git add assets/news/trump-suprema-voto-correo-ap-2026.jpg
-          if ! git diff --cached --quiet; then
-            git commit -m "Agrega foto real de Trump para fallo sobre voto por correo"
-            git push
-          fi
-
       - name: Preparar recorte proporcional
         run: |
           convert trump-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 trump-photo-crop.jpg
