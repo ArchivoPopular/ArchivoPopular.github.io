@@ -1,0 +1,73 @@
+name: Render Suprema Trump voto correo 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-suprema-trump-voto-2026.svg'
+      - '.github/workflows/tmp-render-suprema-trump-voto-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas y tipografía
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografía real de AP
+        run: |
+          curl -L --fail -A 'Mozilla/5.0' 'https://abcnews.com/Politics/wireStory/trump-slams-supreme-court-rejecting-push-restrict-mail-136461280' -o source.html
+          IMG=$(python3 - <<'PY'
+          import re, html
+          s=open('source.html',encoding='utf-8',errors='ignore').read()
+          pats=[
+            r'<meta[^>]+property=["\x27]og:image["\x27][^>]+content=["\x27]([^"\x27]+)',
+            r'<meta[^>]+content=["\x27]([^"\x27]+)["\x27][^>]+property=["\x27]og:image["\x27]'
+          ]
+          for p in pats:
+              m=re.search(p,s,re.I)
+              if m:
+                  print(html.unescape(m.group(1)))
+                  break
+          else:
+              raise SystemExit('No se encontró og:image')
+          PY
+          )
+          echo "$IMG"
+          curl -L --fail -A 'Mozilla/5.0' "$IMG" -o trump-photo-original
+          convert trump-photo-original -auto-orient -quality 96 trump-photo.jpg
+
+      - name: Guardar fotografía en la web
+        run: |
+          mkdir -p assets/news
+          cp trump-photo.jpg assets/news/trump-suprema-voto-correo-ap-2026.jpg
+          git config user.name "Archivo Popular"
+          git config user.email "santiagoares3@gmail.com"
+          git pull --rebase origin main
+          git add assets/news/trump-suprema-voto-correo-ap-2026.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m "Agrega foto real de Trump para fallo sobre voto por correo"
+            git push
+          fi
+
+      - name: Preparar recorte proporcional
+        run: |
+          convert trump-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 trump-photo-crop.jpg
+
+      - name: Renderizar PNG máster
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-suprema-trump-voto-2026.svg -o archivo-popular-suprema-trump-voto-correo-2026-master.png
+          file archivo-popular-suprema-trump-voto-correo-2026-master.png
+
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-suprema-trump-voto-correo-2026
+          path: archivo-popular-suprema-trump-voto-correo-2026-master.png
+          retention-days: 7
