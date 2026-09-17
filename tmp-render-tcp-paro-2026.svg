@@ -72,7 +72,6 @@
      height="2700"
      fill="#F3F0E9"
      id="rect17" />
-  <!-- Replace this group with the news photograph -->
   <g
      id="photo-slot"
      clip-path="url(#photoFrame)">
@@ -114,8 +113,7 @@
      font-family="Nimbus Sans, Helvetica, Arial, sans-serif"
      font-size="32"
      font-weight="700"
-     letter-spacing="3">FOTO: GASTÓN BRITOS / FOCOUY</text>
-  <!-- Headline: enlarged and simplified -->
+     letter-spacing="3">FOTO: G. BRITOS / FOCOUY</text>
   <rect
      x="0"
      y="1590"
@@ -152,7 +150,6 @@
        x="120"
        dy="172"
        id="tspan44">decisión del gobierno</tspan></text>
-  <!-- Date and location stay in the dark information row -->
   <text
      id="date"
      x="120"
@@ -172,7 +169,6 @@
      font-size="48"
      font-weight="600"
      letter-spacing="2">PUERTO DE MONTEVIDEO · URUGUAY</text>
-  <!-- Footer -->
   <rect
      x="0"
      y="2576"
