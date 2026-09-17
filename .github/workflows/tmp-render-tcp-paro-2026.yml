@@ -1,0 +1,73 @@
+name: Render TCP paro 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-tcp-paro-2026.svg'
+      - '.github/workflows/tmp-render-tcp-paro-2026.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografía real
+        run: |
+          curl -L --fail -A 'Mozilla/5.0' 'https://imagenes.montevideo.com.uy/imgnoticias/202403/_W933_80/873908.jpg' -o tcp-photo.jpg
+          convert tcp-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 tcp-photo-crop.jpg
+          cp logo.png archivo-popular-logo-master.png
+
+      - name: Guardar foto y actualizar archivo de noticias
+        run: |
+          mkdir -p assets/news
+          cp tcp-photo.jpg assets/news/tcp-paro-indeterminado-focouy-2026.jpg
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('data/noticias.json')
+          items = json.loads(p.read_text(encoding='utf-8'))
+          story = {
+            'id': 'tcp-paro-indeterminado-servicios-minimos-2026',
+            'title': 'Paro por tiempo indeterminado en el puerto: TCP funciona con servicios mínimos tras la decisión del gobierno',
+            'summary': 'El sindicato mantiene la paralización y la terminal opera con el personal necesario para cumplir el nuevo esquema de servicios mínimos. La negociación del convenio colectivo sigue sin acuerdo.',
+            'category': 'Trabajo · Puerto de Montevideo',
+            'date': '2026-09-17T12:55:00-03:00',
+            'dateDisplay': '17 SEP 2026',
+            'place': 'Puerto de Montevideo · Uruguay',
+            'image': 'assets/news/tcp-paro-indeterminado-focouy-2026.jpg',
+            'imageAlt': 'Grúas y contenedores en Terminal Cuenca del Plata del Puerto de Montevideo',
+            'photoCredit': 'Gastón Britos / FocoUy · archivo',
+            'url': 'noticias/tcp-paro-indeterminado-servicios-minimos-2026.html'
+          }
+          items = [x for x in items if x.get('id') != story['id']]
+          items.insert(0, story)
+          p.write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/tcp-paro-indeterminado-focouy-2026.jpg data/noticias.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra paro indefinido de TCP al sitio'
+            git push
+          fi
+
+      - name: Renderizar PNG máster con plantilla oficial
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-tcp-paro-2026.svg -o archivo-popular-tcp-paro-indeterminado-2026-master.png
+          file archivo-popular-tcp-paro-indeterminado-2026-master.png
+
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-tcp-paro-indeterminado-2026
+          path: archivo-popular-tcp-paro-indeterminado-2026-master.png
+          retention-days: 7
