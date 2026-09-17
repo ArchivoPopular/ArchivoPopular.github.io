@@ -56,6 +56,7 @@ jobs:
           PY
           git config user.name 'Archivo Popular'
           git config user.email 'santiagoares3@gmail.com'
+          git pull --rebase --autostash origin main
           git add assets/news/correo-paro-24-horas-2026.jpg data/noticias.json
           if ! git diff --cached --quiet; then
             git commit -m 'Integra paro de El Correo al sitio'
