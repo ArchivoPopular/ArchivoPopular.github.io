@@ -1,0 +1,21 @@
+name: Descargar foto Milei Malvinas 2026
+
+on:
+  push:
+    paths:
+      - '.github/workflows/tmp-download-milei-malvinas-photo.yml'
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar fotografía oficial
+        run: |
+          curl -L --fail 'https://www.casarosada.gob.ar/images/202604/JMM001.jpg' -o milei-malvinas-presidencia-2026.jpg
+          file milei-malvinas-presidencia-2026.jpg
+      - name: Subir fotografía
+        uses: actions/upload-artifact@v4
+        with:
+          name: milei-malvinas-presidencia-2026
+          path: milei-malvinas-presidencia-2026.jpg
+          retention-days: 2
