@@ -1,0 +1,76 @@
+name: Render Correo paro 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-correo-paro-2026.svg'
+      - '.github/workflows/tmp-render-correo-paro-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografía periodística original
+        run: |
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://media.subrayado.com.uy/p/f8ae5f3b55e47c9a13215b558a694189/adjuntos/230/imagenes/004/093/0004093423/658x425/smart/sindicato-el-correo-paro-y-movilizacion-en-ciudad-vieja.jpg' -o correo-photo.jpg
+          identify correo-photo.jpg
+          convert correo-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 correo-photo-crop.jpg
+          cp logo.png archivo-popular-logo-master.png
+
+      - name: Integrar fotografía y noticia al índice
+        run: |
+          mkdir -p assets/news
+          cp correo-photo.jpg assets/news/correo-paro-24-horas-2026.jpg
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('data/noticias.json')
+          items = json.loads(p.read_text(encoding='utf-8'))
+          story = {
+            'id': 'paro-correo-24-horas-falta-personal-2026',
+            'title': 'Paro de 24 horas en El Correo: el sindicato reclama más personal',
+            'summary': 'El gremio se moviliza desde plaza Independencia hacia la sede de Ciudad Vieja. Afirma que en cinco años se fueron cerca de 410 trabajadores e ingresaron 96.',
+            'category': 'Trabajo · Servicio postal público',
+            'date': '2026-09-17T13:32:00-03:00',
+            'dateDisplay': '17 SEP 2026',
+            'place': 'Ciudad Vieja · Montevideo',
+            'image': 'assets/news/correo-paro-24-horas-2026.jpg',
+            'imageAlt': 'Movilización del sindicato de funcionarios de El Correo en Montevideo durante el paro del 17 de setiembre de 2026',
+            'photoCredit': 'Subrayado',
+            'url': 'noticias/paro-correo-24-horas-falta-personal-2026.html'
+          }
+          items = [x for x in items if x.get('id') != story['id']]
+          items.insert(0, story)
+          p.write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/correo-paro-24-horas-2026.jpg data/noticias.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra paro de El Correo al sitio'
+            git push
+          fi
+
+      - name: Renderizar PNG máster con plantilla oficial
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-correo-paro-2026.svg -o archivo-popular-correo-paro-24-horas-2026-master.png
+          file archivo-popular-correo-paro-24-horas-2026-master.png
+          identify archivo-popular-correo-paro-24-horas-2026-master.png
+
+      - name: Subir PNG máster
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-correo-paro-24-horas-2026
+          path: archivo-popular-correo-paro-24-horas-2026-master.png
+          retention-days: 7
