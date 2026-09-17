@@ -22,7 +22,26 @@ jobs:
 
       - name: Descargar fotografía real de AP
         run: |
-          curl -L --fail 'https://dims.apnews.com/dims4/default/1f1f8e3/2147483647/strip/true/crop/7612x5075%2B0%2B0/resize/1600x1067%21/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Ffe%2Fe7%2F93e9d951fec597bb33aeb7f93d15%2F0b998b4698344b09968517ef10885391' -o abbas-ap.jpg
+          curl -L --fail -A 'Mozilla/5.0' 'https://www.local10.com/news/politics/2026/09/16/trump-administration-again-denies-visas-for-palestinian-delegation-to-attend-the-un-general-assembly/' -o source.html
+          IMG=$(python3 - <<'PY'
+          import re, html
+          s=open('source.html',encoding='utf-8',errors='ignore').read()
+          pats=[
+            r'<meta[^>]+property=["\x27]og:image["\x27][^>]+content=["\x27]([^"\x27]+)',
+            r'<meta[^>]+content=["\x27]([^"\x27]+)["\x27][^>]+property=["\x27]og:image["\x27]'
+          ]
+          for p in pats:
+              m=re.search(p,s,re.I)
+              if m:
+                  print(html.unescape(m.group(1)))
+                  break
+          else:
+              raise SystemExit('No se encontró og:image')
+          PY
+          )
+          echo "$IMG"
+          curl -L --fail -A 'Mozilla/5.0' "$IMG" -o abbas-ap-original
+          convert abbas-ap-original -auto-orient -quality 96 abbas-ap.jpg
 
       - name: Integrar noticia y fotografía al sitio
         run: |
@@ -49,10 +68,16 @@ jobs:
           data=[x for x in data if x.get('id')!=story['id']]
           data.insert(0,story)
           p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          article=Path('noticias/eeuu-impide-abbas-onu-visas-palestinos-2026.html')
+          s=article.read_text(encoding='utf-8')
+          old='https://dims.apnews.com/dims4/default/1f1f8e3/2147483647/strip/true/crop/7612x5075%2B0%2B0/resize/1600x1067%21/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Ffe%2Fe7%2F93e9d951fec597bb33aeb7f93d15%2F0b998b4698344b09968517ef10885391'
+          s=s.replace(old,'https://archivopopular.github.io/assets/news/abbas-onu-ap-2026.jpg')
+          article.write_text(s,encoding='utf-8')
           PY
           git config user.name 'Archivo Popular'
           git config user.email 'santiagoares3@gmail.com'
-          git add assets/news/abbas-onu-ap-2026.jpg data/noticias.json
+          git add assets/news/abbas-onu-ap-2026.jpg data/noticias.json noticias/eeuu-impide-abbas-onu-visas-palestinos-2026.html
           if ! git diff --cached --quiet; then
             git commit -m 'Integra noticia sobre Abbas y la Asamblea General de la ONU'
             git push
