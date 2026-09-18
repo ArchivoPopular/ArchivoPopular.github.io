@@ -1,0 +1,55 @@
+name: Render Operacion Milagro 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-operacion-milagro-2026.svg'
+      - '.github/workflows/tmp-render-operacion-milagro-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+
+      - name: Descargar fotografia periodistica
+        run: |
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://media.busqueda.com.uy/p/651499e67772cb197a601641f845cbd0/adjuntos/359/imagenes/100/152/0100152018/790x0/smart/lubetkin-mario.jpg' -o milagro-photo.jpg
+          identify milagro-photo.jpg
+          convert milagro-photo.jpg -resize '2160x1590^' -gravity center -extent 2160x1590 milagro-photo-crop.jpg
+          cp logo.png archivo-popular-logo-master.png
+
+      - name: Guardar fotografia en el sitio
+        run: |
+          mkdir -p assets/news
+          cp milagro-photo.jpg assets/news/eeuu-operacion-milagro-lubetkin-2026.jpg
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/eeuu-operacion-milagro-lubetkin-2026.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra fotografia de Operacion Milagro'
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Renderizar PNG master con plantilla oficial
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-operacion-milagro-2026.svg -o archivo-popular-eeuu-operacion-milagro-2026-master.png
+          file archivo-popular-eeuu-operacion-milagro-2026-master.png
+          identify archivo-popular-eeuu-operacion-milagro-2026-master.png
+
+      - name: Subir PNG master
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-eeuu-operacion-milagro-2026
+          path: archivo-popular-eeuu-operacion-milagro-2026-master.png
+          retention-days: 7
