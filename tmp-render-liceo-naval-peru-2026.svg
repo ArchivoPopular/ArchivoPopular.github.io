@@ -14,12 +14,13 @@
   <text id="photo-credit" x="154" y="1562" fill="#090909" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="3">FOTO: BRAIAN REYNA / ANDINA</text>
   <rect x="0" y="1590" width="2160" height="986" fill="#090909"/>
   <rect id="brand-divider" x="0" y="1590" width="2160" height="12" fill="#E30613"/>
-  <text id="headline" x="120" y="1735" fill="#FFFFFF" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="126" font-weight="700" letter-spacing="-2">
+  <text id="headline" x="120" y="1735" fill="#FFFFFF" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="128" font-weight="700" letter-spacing="-2">
     <tspan x="120" dy="0">CASO LICEO NAVAL:</tspan>
-    <tspan x="120" dy="145">“LES PEDÍA QUE PARARAN”;</tspan>
-    <tspan x="120" dy="145">SEIS INVESTIGADOS</tspan>
-    <tspan x="120" dy="145">RECIBIERON CUATRO MESES</tspan>
-    <tspan x="120" dy="145">DE INTERNAMIENTO PREVENTIVO</tspan>
+    <tspan x="120" dy="130">“LES PEDÍA QUE PARARAN”;</tspan>
+    <tspan x="120" dy="130">SEIS INVESTIGADOS</tspan>
+    <tspan x="120" dy="130">RECIBIERON CUATRO MESES</tspan>
+    <tspan x="120" dy="130">DE INTERNAMIENTO</tspan>
+    <tspan x="120" dy="130">PREVENTIVO</tspan>
   </text>
   <text id="date" x="120" y="2510" fill="#E30613" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="48" font-weight="700" letter-spacing="2.5">22 DE SETIEMBRE DE 2026</text>
   <text id="location" x="2040" y="2510" text-anchor="end" fill="#BEBAB2" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="48" font-weight="600" letter-spacing="2">SAN BORJA · LIMA, PERÚ</text>
