@@ -1,0 +1,36 @@
+name: Render Liceo Naval Peru 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-liceo-naval-peru-2026.svg'
+      - '.github/workflows/tmp-render-liceo-naval-peru-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+      - name: Descargar fotografía real de Agencia Andina
+        run: |
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://portal.andina.pe/EDPfotografia3/Thumbnail/2026/09/18/001316174M.jpg' -o liceo-photo.jpg
+          identify liceo-photo.jpg
+          cp logo.png archivo-popular-logo-master.png
+      - name: Renderizar PNG master
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-liceo-naval-peru-2026.svg -o archivo-popular-liceo-naval-peru-2026-master.png
+          identify archivo-popular-liceo-naval-peru-2026-master.png
+      - name: Subir PNG master
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-liceo-naval-peru-2026
+          path: archivo-popular-liceo-naval-peru-2026-master.png
+          retention-days: 7
