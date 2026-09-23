@@ -1,0 +1,84 @@
+name: Render Van Hollen Netanyahu ONU 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-van-hollen-netanyahu-2026.svg'
+      - '.github/workflows/tmp-render-van-hollen-netanyahu-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+      - name: Descargar fotografía oficial del Senado de Estados Unidos
+        run: |
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://www.senate.gov/artandhistory/history/resources/graphic/xlarge/VanHollenChris.jpg' -o van-hollen-photo.jpg
+          identify van-hollen-photo.jpg
+          cp logo.png archivo-popular-logo-master.png
+      - name: Renderizar PNG master
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-van-hollen-netanyahu-2026.svg -o archivo-popular-van-hollen-netanyahu-2026-master.png
+          identify archivo-popular-van-hollen-netanyahu-2026-master.png
+      - name: Integrar foto, placa e índice al sitio
+        run: |
+          mkdir -p assets/news assets/cards
+          cp van-hollen-photo.jpg assets/news/chris-van-hollen-senate-official.jpg
+          cp archivo-popular-van-hollen-netanyahu-2026-master.png assets/cards/archivo-popular-van-hollen-netanyahu-2026-master.png
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/noticias.json')
+          data=json.loads(p.read_text())
+          remove_ids={'lula-onu-brasil-no-es-patio-trasero-2026','trump-plan-reconstruccion-gaza-onu-2026'}
+          data=[x for x in data if x.get('id') not in remove_ids]
+          story={
+            'id':'van-hollen-netanyahu-mentiroso-cronico-cpi-onu-2026',
+            'title':'Senador demócrata acusa a Netanyahu de “mentir y mentir” y recuerda la orden de arresto de la CPI',
+            'summary':'Chris Van Hollen respondió a los ataques de Netanyahu contra Zohran Mamdani, lo calificó de “mentiroso crónico” y recordó la orden de arresto de la Corte Penal Internacional.',
+            'category':'Estados Unidos · Israel · ONU',
+            'date':'2026-09-23T18:13:00-03:00',
+            'dateDisplay':'23 SEP 2026',
+            'place':'Estados Unidos · ONU',
+            'image':'assets/news/chris-van-hollen-senate-official.jpg',
+            'imageAlt':'Retrato oficial del senador demócrata Chris Van Hollen',
+            'photoCredit':'U.S. Senate Historical Office',
+            'url':'noticias/van-hollen-netanyahu-mentiroso-cronico-cpi-onu-2026.html'
+          }
+          data=[story]+[x for x in data if x.get('id')!=story['id']]
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          s=Path('sitemap.xml')
+          txt=s.read_text()
+          for old in [
+            'https://archivopopular.github.io/noticias/lula-onu-brasil-no-es-patio-trasero-2026.html',
+            'https://archivopopular.github.io/noticias/trump-plan-reconstruccion-gaza-onu-2026.html'
+          ]:
+            import re
+            txt=re.sub(r'\s*<url><loc>'+re.escape(old)+r'</loc><lastmod>2026-09-23</lastmod></url>\s*','\n',txt)
+          url='https://archivopopular.github.io/noticias/van-hollen-netanyahu-mentiroso-cronico-cpi-onu-2026.html'
+          if url not in txt:
+              txt=txt.replace('</urlset>',f'  <url><loc>{url}</loc><lastmod>2026-09-23</lastmod></url>\n</urlset>')
+          s.write_text(txt)
+          PY
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/chris-van-hollen-senate-official.jpg assets/cards/archivo-popular-van-hollen-netanyahu-2026-master.png data/noticias.json sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra crítica de Van Hollen a Netanyahu y placa master'
+            git pull --rebase --autostash origin main
+            git push
+          fi
+      - name: Subir PNG master
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-van-hollen-netanyahu-2026
+          path: archivo-popular-van-hollen-netanyahu-2026-master.png
+          retention-days: 7
