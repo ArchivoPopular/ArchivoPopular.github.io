@@ -1,0 +1,100 @@
+name: Render Orsi ONU Cuba 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-orsi-onu-cuba-2026.svg'
+      - '.github/workflows/tmp-render-orsi-onu-cuba-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+      - name: Descargar fotografía AFP real del discurso
+        run: |
+          PAGE='https://www.subrayado.com.uy/no-podemos-ser-indiferentes-el-sufrimiento-que-provoca-ferreo-bloqueo-economico-al-pueblo-cubano-dijo-orsi-n1018996'
+          curl -Ls --fail --retry 3 -A 'Mozilla/5.0' "$PAGE" -o page.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, html
+          s=Path('page.html').read_text(errors='ignore')
+          pats=[
+            r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']',
+            r'"og:image"\s*:\s*"([^"]+)"'
+          ]
+          url=None
+          for p in pats:
+              m=re.search(p,s,re.I)
+              if m:
+                  url=html.unescape(m.group(1).replace('\\/','/'))
+                  break
+          if not url:
+              raise SystemExit('No se encontró og:image')
+          print(url)
+          Path('photo-url.txt').write_text(url)
+          PY
+          PHOTO_URL="$(cat photo-url.txt)"
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' "$PHOTO_URL" -o orsi-source
+          convert orsi-source -auto-orient orsi-onu-photo.jpg
+          identify orsi-onu-photo.jpg
+          cp logo.png archivo-popular-logo-master.png
+      - name: Renderizar PNG master
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-orsi-onu-cuba-2026.svg -o archivo-popular-orsi-onu-cuba-2026-master.png
+          identify archivo-popular-orsi-onu-cuba-2026-master.png
+      - name: Integrar foto, placa e índice al sitio
+        run: |
+          mkdir -p assets/news assets/cards
+          cp orsi-onu-photo.jpg assets/news/orsi-onu-cuba-afp-2026.jpg
+          cp archivo-popular-orsi-onu-cuba-2026-master.png assets/cards/archivo-popular-orsi-onu-cuba-2026-master.png
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/noticias.json')
+          data=json.loads(p.read_text())
+          story={
+            'id':'orsi-onu-bloqueo-cuba-oposicion-2026',
+            'title':'Orsi denuncia en la ONU el “férreo bloqueo” a Cuba y la oposición sale al cruce',
+            'summary':'Yamandú Orsi incluyó el bloqueo económico a Cuba entre los sufrimientos ante los que la comunidad internacional no puede ser indiferente. Diputados del Partido Nacional cuestionaron el discurso.',
+            'category':'Uruguay · ONU · Cuba',
+            'date':'2026-09-24T18:29:00-03:00',
+            'dateDisplay':'24 SEP 2026',
+            'place':'Nueva York · Estados Unidos',
+            'image':'assets/news/orsi-onu-cuba-afp-2026.jpg',
+            'imageAlt':'Yamandú Orsi interviene ante la 81ª Asamblea General de Naciones Unidas',
+            'photoCredit':'AFP · publicada por Subrayado',
+            'url':'noticias/orsi-onu-bloqueo-cuba-oposicion-2026.html'
+          }
+          data=[story]+[x for x in data if x.get('id')!=story['id']]
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          s=Path('sitemap.xml')
+          txt=s.read_text()
+          url='https://archivopopular.github.io/noticias/orsi-onu-bloqueo-cuba-oposicion-2026.html'
+          if url not in txt:
+              txt=txt.replace('</urlset>',f'  <url><loc>{url}</loc><lastmod>2026-09-24</lastmod></url>\n</urlset>')
+              s.write_text(txt)
+          PY
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/orsi-onu-cuba-afp-2026.jpg assets/cards/archivo-popular-orsi-onu-cuba-2026-master.png data/noticias.json sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra discurso de Orsi sobre Cuba y placa master'
+            git pull --rebase --autostash origin main
+            git push
+          fi
+      - name: Subir PNG master
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-orsi-onu-cuba-2026
+          path: archivo-popular-orsi-onu-cuba-2026-master.png
+          retention-days: 7
