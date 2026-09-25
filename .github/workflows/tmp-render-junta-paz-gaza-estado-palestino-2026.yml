@@ -1,0 +1,77 @@
+name: Render Junta Paz Gaza Estado Palestino 2026
+
+on:
+  push:
+    paths:
+      - 'tmp-render-junta-paz-gaza-estado-palestino-2026.svg'
+      - '.github/workflows/tmp-render-junta-paz-gaza-estado-palestino-2026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35
+      - name: Descargar fotografía periodística real de EFE
+        run: |
+          curl -L --fail --retry 3 -A 'Mozilla/5.0' 'https://i0.wp.com/efe.com/wp-content/uploads/2026/09/GAZA-1.webp?resize=900%2C600&ssl=1' -o gaza-source.webp
+          identify gaza-source.webp
+          convert gaza-source.webp gaza-photo.jpg
+          cp logo.png archivo-popular-logo-master.png
+      - name: Renderizar PNG master
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-junta-paz-gaza-estado-palestino-2026.svg -o archivo-popular-junta-paz-gaza-estado-palestino-2026-master.png
+          identify archivo-popular-junta-paz-gaza-estado-palestino-2026-master.png
+      - name: Integrar foto, placa e índice al sitio
+        run: |
+          mkdir -p assets/news assets/cards
+          cp gaza-source.webp assets/news/gaza-ruinas-mohammed-saber-efe-2026.webp
+          cp archivo-popular-junta-paz-gaza-estado-palestino-2026-master.png assets/cards/archivo-popular-junta-paz-gaza-estado-palestino-2026-master.png
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/noticias.json')
+          data=json.loads(p.read_text())
+          story={
+            'id':'junta-paz-gaza-estado-palestino-2026',
+            'title':'La Junta de Paz impulsada por Trump advierte: reconstruir Gaza sin un Estado palestino sería “un encierro más cómodo”',
+            'summary':'Nickolay Mladenov advirtió en la ONU que la reconstrucción material de Gaza no puede sustituir la autodeterminación palestina ni un horizonte político hacia un Estado propio.',
+            'category':'Palestina · ONU · Gaza',
+            'date':'2026-09-24T21:04:00-03:00',
+            'dateDisplay':'24 SEP 2026',
+            'place':'Nueva York · Estados Unidos',
+            'image':'assets/news/gaza-ruinas-mohammed-saber-efe-2026.webp',
+            'imageAlt':'Edificios residenciales en ruinas en el norte de Ciudad de Gaza',
+            'photoCredit':'Mohammed Saber / EFE-EPA',
+            'url':'noticias/junta-paz-gaza-estado-palestino-2026.html'
+          }
+          data=[story]+[x for x in data if x.get('id')!=story['id']]
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          s=Path('sitemap.xml')
+          txt=s.read_text()
+          url='https://archivopopular.github.io/noticias/junta-paz-gaza-estado-palestino-2026.html'
+          if url not in txt:
+              txt=txt.replace('</urlset>',f'  <url><loc>{url}</loc><lastmod>2026-09-24</lastmod></url>\n</urlset>')
+              s.write_text(txt)
+          PY
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/gaza-ruinas-mohammed-saber-efe-2026.webp assets/cards/archivo-popular-junta-paz-gaza-estado-palestino-2026-master.png data/noticias.json sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra Junta de Paz Gaza y placa master'
+            git pull --rebase --autostash origin main
+            git push
+          fi
+      - name: Subir PNG master
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-junta-paz-gaza-estado-palestino-2026
+          path: archivo-popular-junta-paz-gaza-estado-palestino-2026-master.png
+          retention-days: 7
