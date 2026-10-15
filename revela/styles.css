@@ -51,6 +51,7 @@
 .auth-submit:disabled{background:#706e68;cursor:not-allowed}
 .auth-switch{margin:27px 0 0!important;font-size:13px!important}
 .auth-switch a{color:var(--purple);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.auth-recovery{align-self:flex-end;margin:-5px 0 20px;font-size:12px;font-weight:700;color:var(--purple);text-decoration:underline;text-underline-offset:3px}
 .auth-footer{border-top:1px solid var(--line);padding-block:23px;display:flex;justify-content:space-between;gap:20px;color:#656560;font-size:11px}
 .auth-footer a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:900px){.auth-layout{grid-template-columns:1fr;gap:40px;padding-block:60px}.auth-editorial{min-height:auto}.auth-editorial h1{font-size:clamp(60px,10vw,88px);margin:36px 0 25px}.auth-index{margin-top:40px}.auth-panel h2{margin-top:45px}}
