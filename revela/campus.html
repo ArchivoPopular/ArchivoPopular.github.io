@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3F0EA">
+  <meta name="robots" content="noindex">
+  <title>Mi curso — REVELA.</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="campus.css">
+</head>
+<body class="campus-page">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-header"><div class="header-inner wrap"><a class="brand" href="index.html" aria-label="REVELA., inicio">revela<span>.</span><small>Academia de fotografía</small></a><a class="campus-site-link" href="index.html">La academia ↗</a></div></header>
+  <div class="campus-shell wrap" id="contenido">
+    <aside class="campus-sidebar" aria-label="Navegación del estudiante">
+      <div class="sidebar-top">REVELA. / Campus <span>01—06</span></div>
+      <nav id="campus-nav"><a href="#curso" data-nav="curso">Mi curso</a><a href="#modulo" data-nav="modulo">Lecciones</a><a href="#entrega" data-nav="entrega">Entrega práctica</a><a href="#evaluacion" data-nav="evaluacion">Evaluación</a><a href="#pago" data-nav="pago">Acceso completo</a><a href="#cuenta" data-nav="cuenta">Mi cuenta</a><a href="#admin" data-nav="admin" id="admin-nav" hidden>Administración</a></nav>
+      <div class="sidebar-bottom"><span>Aprendé a tus tiempos.</span><a href="index.html">Volver a la web ↗</a></div>
+    </aside>
+    <main class="campus-main">
+      <div class="campus-notice" id="campus-notice" role="status" aria-live="polite">Preparando tu espacio…</div>
+      <div id="campus-content" hidden>
+        <section class="campus-view" data-view="curso">
+          <div class="campus-kicker">TU RECORRIDO / FOTOGRAFÍA DESDE CERO</div>
+          <h1>Hola, <em id="student-first-name">estudiante</em>.</h1>
+          <p class="campus-lede">Este es tu espacio para aprender con el equipo que tenés. Empezá por observar, practicá y avanzá sin horarios impuestos.</p>
+          <div class="progress-card"><div><span>01 / Tu primer módulo</span><h2>Empezar a mirar</h2><p id="progress-text">Revisando tu avance…</p></div><a class="button button-dark" href="#modulo">Ir a las lecciones ↗</a></div>
+          <div class="campus-section-title"><div><span>EL CURSO</span><h2>Seis pasos para <em>mirar distinto.</em></h2></div><p>El programa de los módulos siguientes puede ajustarse antes del lanzamiento completo.</p></div>
+          <div class="module-grid" id="module-grid"></div>
+          <div class="course-summary"><span>CURSO COMPLETO</span><p>Primer módulo gratuito. El curso completo cuesta <strong>$780 UYU</strong>, en un único pago por transferencia. El acceso se habilita después de verificarlo.</p><a href="#pago">Ver cómo funciona ↗</a></div>
+        </section>
+        <section class="campus-view" data-view="modulo" hidden>
+          <div class="campus-kicker" id="lesson-kicker">MÓDULO 01 / GRATUITO</div><h1 id="lesson-module-title">Empezar a <em>mirar.</em></h1>
+          <p class="campus-lede" id="lesson-module-lede">Observación, equipo disponible y primeras decisiones fotográficas.</p>
+          <div class="lesson-layout"><nav class="lesson-list" aria-label="Lecciones" id="lesson-list"></nav><article class="lesson-article" id="lesson-article"><p>Elegí una lección para empezar.</p></article></div>
+          <div class="resource-box"><h2>Material para leer</h2><div id="resource-list"><p>Los libros PDF se incorporarán aquí cuando estén listos.</p></div></div>
+          <div class="module-actions"><a href="#entrega">Hacer la entrega práctica ↗</a><a href="#evaluacion">Ir a la evaluación ↗</a></div>
+        </section>
+        <section class="campus-view" data-view="entrega" hidden>
+          <div class="campus-kicker">MÓDULO 01 / PRÁCTICA</div><h1>Una pequeña <em>serie.</em></h1>
+          <p class="campus-lede">Fotografiá un tema cotidiano desde tres decisiones distintas: un contexto, un detalle y otro punto de vista. Podés usar celular o cámara.</p>
+          <div class="task-grid"><div><span>01 / Elegí</span><p>Buscá un lugar, objeto o escena que puedas observar sin apuro.</p></div><div><span>02 / Fotografiá</span><p>Seleccioná tres imágenes diferentes que dialoguen entre sí.</p></div><div><span>03 / Explicá</span><p>Contá qué elegiste mostrar, qué cambió entre las fotos y por qué las ordenaste así.</p></div></div>
+          <form class="campus-form" id="submission-form"><label for="submission-files">Tus tres fotografías</label><input id="submission-files" type="file" accept="image/jpeg,image/png,image/webp" multiple required><small>Exactamente 3 archivos JPG, PNG o WebP. Hasta 10 MB por imagen. Son privados y solo los ve el equipo administrador.</small><label for="submission-reflection">Tu reflexión</label><textarea id="submission-reflection" rows="6" minlength="30" maxlength="1000" required placeholder="Elegí fotografiar…"></textarea><small>Entre 30 y 1000 caracteres. La entrega será revisada antes de contar como cumplida.</small><button class="button button-dark" type="submit">Enviar entrega ↗</button></form>
+          <div class="history-box"><h2>Mis entregas</h2><div id="submission-history">Todavía no hay entregas.</div></div>
+        </section>
+        <section class="campus-view" data-view="evaluacion" hidden>
+          <div class="campus-kicker">MÓDULO 01 / EVALUACIÓN</div><h1>Lo que <em>aprendiste.</em></h1>
+          <p class="campus-lede">Respondé las preguntas de opción múltiple. Se necesita al menos 85 % de respuestas correctas y una entrega práctica aceptada para aprobar el módulo.</p>
+          <div class="evaluation-note">La evaluación de este primer módulo tiene 20 preguntas: <strong>17 respuestas correctas alcanzan el mínimo</strong>. La nota se calcula en el servidor.</div>
+          <form id="quiz-form" class="quiz-form"><div id="quiz-questions"></div><button class="button button-dark" type="submit">Enviar evaluación ↗</button></form>
+          <div class="history-box"><h2>Mis intentos</h2><div id="quiz-history">Todavía no hay intentos.</div></div>
+        </section>
+        <section class="campus-view" data-view="pago" hidden>
+          <div class="campus-kicker">ACCESO COMPLETO / PAGO ÚNICO</div><h1>Seguí <em>explorando.</em></h1>
+          <p class="campus-lede">El curso completo tiene un precio de <strong>$780 UYU</strong>, por única vez. El pago inicial se coordina por transferencia bancaria y el acceso se habilita manualmente tras comprobar la acreditación.</p>
+          <div class="payment-panel" id="payment-panel"><p>Consultando disponibilidad…</p></div>
+          <div class="payment-steps"><div><span>01</span><p>Solicitás acceso desde tu cuenta.</p></div><div><span>02</span><p>Transferís a los datos oficiales que se muestran aquí cuando los pagos estén habilitados.</p></div><div><span>03</span><p>Avisás la operación. Santiago verifica que el dinero haya ingresado y habilita el acceso.</p></div></div>
+        </section>
+        <section class="campus-view" data-view="cuenta" hidden>
+          <div class="campus-kicker">DATOS DE ACCESO</div><h1>Tu <em>cuenta.</em></h1>
+          <div class="profile-card"><span>NOMBRE</span><strong id="profile-name"></strong><span>CORREO</span><strong id="profile-email"></strong><span>ACCESO</span><strong id="profile-access"></strong></div>
+          <button class="button button-dark logout-button" id="campus-logout" type="button">Cerrar sesión ↗</button>
+        </section>
+        <section class="campus-view" data-view="admin" hidden>
+          <div class="campus-kicker">REVELA. / ADMINISTRACIÓN PRIVADA</div><h1>Panel de <em>gestión.</em></h1><p class="campus-lede">La acreditación bancaria se verifica fuera de la web. El botón de habilitación registra quién lo hizo y cuándo.</p>
+          <div class="admin-tabs"><a href="#admin-payments">Solicitudes</a><a href="#admin-submissions">Entregas</a><a href="#admin-progress">Progreso</a><a href="#admin-resources">PDF</a><a href="#admin-settings">Configuración</a><a href="#admin-audit">Historial</a></div>
+          <div class="admin-section" id="admin-payments"><h2>Solicitudes y accesos</h2><div id="admin-requests">Cargando…</div></div>
+          <div class="admin-section" id="admin-submissions"><h2>Entregas por revisar</h2><div id="admin-work">Cargando…</div></div>
+          <div class="admin-section" id="admin-progress"><h2>Progreso de estudiantes</h2><div id="admin-progress-list">Cargando…</div></div>
+          <div class="admin-section" id="admin-resources"><h2>Libros PDF</h2><p>Los archivos se guardan en un bucket privado. Los alumnos reciben enlaces temporales según su permiso.</p><form class="campus-form" id="admin-pdf-form"><label for="pdf-module">Módulo</label><select id="pdf-module"></select><label for="pdf-title">Título del material</label><input id="pdf-title" type="text" maxlength="120" required><label for="pdf-file">Archivo PDF</label><input id="pdf-file" type="file" accept="application/pdf" required><small>Hasta 20 MB. Revisá la calidad y los derechos antes de subirlo.</small><button class="button button-dark" type="submit">Agregar PDF ↗</button></form><div id="admin-resource-list"></div></div>
+          <div class="admin-section" id="admin-settings"><h2>Transferencia y contacto</h2><p>Activá solicitudes solo cuando los datos bancarios, contenidos y condiciones estén listos.</p><form class="campus-form" id="admin-settings-form"><label for="bank-instructions">Instrucciones de transferencia</label><textarea id="bank-instructions" rows="5" placeholder="Banco, titular, cuenta y referencia oficial"></textarea><label for="whatsapp-number">WhatsApp de contacto (código de país y número)</label><input id="whatsapp-number" type="tel" inputmode="numeric" placeholder="598…"><label class="checkbox-line"><input id="payments-enabled" type="checkbox"> Habilitar solicitudes de pago</label><button class="button button-dark" type="submit">Guardar configuración ↗</button></form></div>
+          <div class="admin-section" id="admin-audit"><h2>Historial de cambios</h2><div id="admin-audit-list">Cargando…</div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer class="campus-footer wrap"><span>© 2026 REVELA. · Santiago Ares</span><span>La fotografía empieza con lo que tenés.</span></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
+  <script src="campus.js"></script>
+</body>
+</html>

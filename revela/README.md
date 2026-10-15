@@ -1,22 +1,31 @@
-# REVELA. — rama de preparación de las cuentas
+# REVELA. — web y campus de fotografía
 
-Esta carpeta contiene la portada de lanzamiento y un flujo de cuentas con Supabase Auth: `registro.html`, `ingresar.html`, `recuperar.html`, `nueva-clave.html` y `cuenta.html`. Incluye verificación de correo, recuperación de contraseña y cierre de sesión. `cuenta.html` muestra solo nombre y correo de la persona autenticada; todavía no es el campus.
+La rama `revela-preparacion-registro` contiene:
 
-**No fusionar esta rama con `main` todavía.** La portada y las preguntas frecuentes describen el primer módulo como disponible, pero todavía no está construido. La rama `main` conserva la información real de preapertura. Las pantallas de cuenta quedan cerradas mientras `auth-config.js` no tenga la URL del proyecto y su clave pública.
+- Web pública editorial con propuesta, método, planes y preguntas frecuentes.
+- Registro, confirmación por correo, ingreso, recuperación y cuenta.
+- Campus con seis módulos en el índice; **el primer módulo** tiene cuatro lecciones web, evaluación inicial de 20 preguntas y entrega de tres fotografías con reflexión. Los otros módulos son estructura y temario propuesto, sin lecciones definitivas.
+- Progreso: un módulo se considera aprobado solo con **entrega aceptada por admin** y evaluación de **al menos 85 %**, calculado en la base de datos.
+- Solicitud de acceso completo por **$780 UYU**, transferencia manual, aviso de operación, verificación bancaria fuera de la web y habilitación desde el panel.
+- Panel administrador para solicitudes, revisión de entregas, progreso, carga de PDF en almacenamiento privado, configuración de datos de pago e historial de habilitaciones.
+- SQL inicial en `supabase/schema.sql` con RLS, almacenamiento privado y permisos por persona.
 
-## Conectar un proyecto
+## Estado real
 
-1. Crear un proyecto Supabase; mantener activado Email/Password y la confirmación por correo en Authentication → Providers.
-2. Copiar **Project URL** y **publishable key** desde el proyecto a `auth-config.js`. La URL debe usar HTTPS. Nunca colocar una secret key, service_role key o contraseña aquí.
-3. En Authentication → URL Configuration, definir Site URL del sitio que se publicará y agregar **rutas exactas** de redirección: `https://TU-DOMINIO/revela/cuenta.html` y `https://TU-DOMINIO/revela/nueva-clave.html` (ajustar el prefijo según el hosting). Los enlaces del correo deben respetar `redirectTo`.
-4. Configurar envío de correo para producción. El servicio de correo de prueba de Supabase tiene límites y disponibilidad limitada.
-5. Abrir el sitio bajo HTTPS y comprobar registro, confirmación por correo, ingreso, cierre de sesión, enlace de recuperación vencido y cambio de contraseña. La clave pública permite conectar el navegador a Supabase; los permisos de datos futuros se implementarán con políticas en servidor (RLS), nunca ocultando enlaces en HTML.
+**No fusionar con `main` ni activar cobros todavía.** Este código no está conectado a un proyecto Supabase: `auth-config.js` tiene URL y clave pública vacías. Los formularios quedan cerrados y el campus no accede a datos. La web pública actual en `main` sigue siendo informativa.
 
-## Antes de abrir al público
+Para probarlo en un proyecto real:
 
-- Publicar política de privacidad y condiciones aplicables al registro, pagos y entregas de alumnos.
-- Construir y probar el primer módulo gratuito. La portada actual afirma que ya se puede acceder a él.
-- Proteger cualquier material pago con permisos en servidor y conectar la verificación manual de pagos antes de ofrecer ese acceso.
-- Revisar los textos de disponibilidad y fusionar con `main` solo cuando el contenido anunciado esté listo.
+1. Crear un proyecto Supabase y ejecutar una vez `supabase/schema.sql` en SQL Editor. Después cargar la clave de corrección **privada** `REVELA_clave_evaluacion_modulo_1.sql` desde el archivo entregado por separado. Mantener la confirmación de correo activada.
+2. Colocar la **Project URL** y la **publishable key** en `auth-config.js`. Nunca publicar secret/service_role keys.
+3. Configurar la Site URL real y las rutas exactas `cuenta.html` y `nueva-clave.html` como redirecciones permitidas en Authentication → URL Configuration. Usar HTTPS.
+4. Crear una cuenta administradora, confirmar el correo y asignar su UUID siguiendo `supabase/README.md`. No inferir un administrador por el dominio del correo.
+5. Configurar envío de correo apto para producción, política de privacidad, condiciones del curso y datos reales de transferencia/WhatsApp. Mantener `payments_enabled=false` hasta que haya contenido pago utilizable y condiciones publicadas.
+6. Probar en el proyecto real con tres cuentas: estudiante gratuito, estudiante habilitado y administrador. Comprobar registro, recuperación, PDF privado, tres imágenes, nota 17/20 y 16/20, entrega aceptada/rechazada, pago reportado sin autoacceso, habilitación y suspensión.
+7. Revisar pedagógicamente el primer módulo y las preguntas. Definir programa final, política de intentos, revisión de trabajos, vigencia del acceso y política de devoluciones antes de abrir inscripciones.
 
-No incluir datos bancarios, contraseñas, claves secretas ni fotografías de estudiantes en el repositorio.
+Los PDF se agregan después desde el panel admin; nunca desde una carpeta pública del repositorio. No hay certificado automático. Los datos bancarios, correos de estudiantes, trabajos y claves secretas no se guardan en GitHub.
+
+## Limitaciones actuales
+
+El esquema y la interfaz se revisaron en local, pero **no se ejecutaron contra un proyecto Supabase** porque todavía no hay uno conectado. No se verificaron entrega de correos, políticas RLS ni permisos de Storage en vivo. El servicio de correo de prueba de Supabase tiene límites; configurar un remitente apto para producción. El número de intentos de evaluación permanece abierto y no debe darse por decidido a partir de esta versión.
