@@ -1,16 +1,22 @@
-# REVELA. — rama de preparación del registro
+# REVELA. — rama de preparación de las cuentas
 
-Esta carpeta contiene el texto de lanzamiento y las pantallas de `registro.html`, `ingresar.html` y `recuperar.html`.
+Esta carpeta contiene la portada de lanzamiento y un flujo de cuentas con Supabase Auth: `registro.html`, `ingresar.html`, `recuperar.html`, `nueva-clave.html` y `cuenta.html`. Incluye verificación de correo, recuperación de contraseña y cierre de sesión. `cuenta.html` muestra solo nombre y correo de la persona autenticada; todavía no es el campus.
 
-**No desplegar esta rama como sitio público todavía.** La portada y las preguntas frecuentes describen el primer módulo como disponible, pero los formularios están deshabilitados. No se capturan ni almacenan contraseñas. La rama `main` conserva la información real de preapertura.
+**No fusionar esta rama con `main` todavía.** La portada y las preguntas frecuentes describen el primer módulo como disponible, pero todavía no está construido. La rama `main` conserva la información real de preapertura. Las pantallas de cuenta quedan cerradas mientras `auth-config.js` no tenga la URL del proyecto y su clave pública.
 
-Para abrir el registro de forma honesta y segura falta:
+## Conectar un proyecto
 
-1. Elegir e implementar autenticación en servidor con verificación de correo y recuperación de contraseña.
-2. Publicar política de privacidad y condiciones aplicables al registro y a las entregas de alumnos.
-3. Construir el primer módulo gratuito y proteger los materiales pagos con permisos en servidor.
-4. Conectar el estado del pago verificado y la habilitación manual del alumno.
-5. Probar creación de cuenta, ingreso, cierre de sesión, recuperación, protección de rutas y acceso desde móvil.
-6. Habilitar los formularios, actualizar esta nota y recién entonces fusionar la rama con `main`.
+1. Crear un proyecto Supabase; mantener activado Email/Password y la confirmación por correo en Authentication → Providers.
+2. Copiar **Project URL** y **publishable key** desde el proyecto a `auth-config.js`. La URL debe usar HTTPS. Nunca colocar una secret key, service_role key o contraseña aquí.
+3. En Authentication → URL Configuration, definir Site URL del sitio que se publicará y agregar **rutas exactas** de redirección: `https://TU-DOMINIO/revela/cuenta.html` y `https://TU-DOMINIO/revela/nueva-clave.html` (ajustar el prefijo según el hosting). Los enlaces del correo deben respetar `redirectTo`.
+4. Configurar envío de correo para producción. El servicio de correo de prueba de Supabase tiene límites y disponibilidad limitada.
+5. Abrir el sitio bajo HTTPS y comprobar registro, confirmación por correo, ingreso, cierre de sesión, enlace de recuperación vencido y cambio de contraseña. La clave pública permite conectar el navegador a Supabase; los permisos de datos futuros se implementarán con políticas en servidor (RLS), nunca ocultando enlaces en HTML.
 
-No incluir datos bancarios, contraseñas, claves de API ni fotografías de estudiantes en el repositorio.
+## Antes de abrir al público
+
+- Publicar política de privacidad y condiciones aplicables al registro, pagos y entregas de alumnos.
+- Construir y probar el primer módulo gratuito. La portada actual afirma que ya se puede acceder a él.
+- Proteger cualquier material pago con permisos en servidor y conectar la verificación manual de pagos antes de ofrecer ese acceso.
+- Revisar los textos de disponibilidad y fusionar con `main` solo cuando el contenido anunciado esté listo.
+
+No incluir datos bancarios, contraseñas, claves secretas ni fotografías de estudiantes en el repositorio.

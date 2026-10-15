@@ -9,14 +9,16 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="auth-page">
+<body class="auth-page" data-auth-page="recovery">
   <a class="skip" href="#contenido">Saltar al contenido</a>
   <header class="site-header"><div class="header-inner wrap"><a class="brand" href="index.html" aria-label="REVELA., volver al inicio">revela<span>.</span><small>Academia de fotografía</small></a><a class="auth-header-link" href="ingresar.html">Volver a ingresar <span aria-hidden="true">↗</span></a></div></header>
   <main class="auth-layout wrap" id="contenido">
-    <div class="auth-editorial"><div class="section-marker">Tu cuenta</div><h1>Volvé a<br><em>tu recorrido.</em></h1><p>Podrás pedir un enlace de recuperación en el correo asociado a tu cuenta.</p><div class="auth-index">03 / Recuperar acceso</div></div>
-    <section class="auth-panel" aria-labelledby="recovery-title"><div class="panel-top">REVELA. / Estudiantes <span>03</span></div><h2 id="recovery-title">Recuperar acceso</h2><p>Ingresá tu correo para solicitar un enlace de recuperación.</p><div class="auth-state" id="auth-state" role="status" aria-live="polite">Estamos terminando la conexión segura de las cuentas. Esta pantalla es una vista previa y todavía no envía correos.</div><form id="recovery-form" novalidate><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required disabled><button class="button button-dark auth-submit" type="submit" disabled>Solicitar enlace <span aria-hidden="true">↗</span></button></form><p class="auth-switch"><a href="ingresar.html">Volver a ingresar</a></p></section>
+    <div class="auth-editorial"><div class="section-marker">Tu cuenta</div><h1>Volvé a<br><em>tu recorrido.</em></h1><p>Pedí un enlace para volver a entrar en tu cuenta.</p><div class="auth-index">03 / Recuperar acceso</div></div>
+    <section class="auth-panel" aria-labelledby="recovery-title"><div class="panel-top">REVELA. / Estudiantes <span>03</span></div><h2 id="recovery-title">Recuperar acceso</h2><p>Ingresá tu correo para solicitar un enlace de recuperación.</p><div class="auth-state" id="auth-state" role="status" aria-live="polite">Cargando la recuperación…</div><form id="recovery-form" novalidate><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required disabled><button class="button button-dark auth-submit" type="submit" disabled>Solicitar enlace <span aria-hidden="true">↗</span></button></form><p class="auth-switch"><a href="ingresar.html">Volver a ingresar</a></p></section>
   </main>
   <footer class="auth-footer wrap"><span>© 2026 REVELA. · Santiago Ares</span><a href="index.html">Volver a la academia</a></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
   <script src="auth.js"></script>
 </body>
 </html>

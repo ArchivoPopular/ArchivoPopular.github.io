@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3F0EA">
+  <meta name="robots" content="noindex">
+  <title>Nueva contraseña — REVELA.</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page" data-auth-page="new-password">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-header"><div class="header-inner wrap"><a class="brand" href="index.html" aria-label="REVELA., volver al inicio">revela<span>.</span><small>Academia de fotografía</small></a><a class="auth-header-link" href="ingresar.html">Volver a ingresar <span aria-hidden="true">↗</span></a></div></header>
+  <main class="auth-layout wrap" id="contenido">
+    <div class="auth-editorial"><div class="section-marker">Tu cuenta</div><h1>Una nueva<br><em>clave.</em></h1><p>Elegí una contraseña para recuperar el acceso a tu cuenta.</p><div class="auth-index">03 / Recuperar acceso</div></div>
+    <section class="auth-panel" aria-labelledby="password-title"><div class="panel-top">REVELA. / Estudiantes <span>03</span></div><h2 id="password-title">Nueva contraseña</h2><p>El enlace que recibiste por correo habilita este formulario.</p><div class="auth-state" id="auth-state" role="status" aria-live="polite">Comprobando el enlace…</div><form id="password-form" novalidate><label for="password">Nueva contraseña</label><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required disabled><label for="confirm">Repetir contraseña</label><input id="confirm" name="confirm" type="password" autocomplete="new-password" minlength="8" required disabled><button class="button button-dark auth-submit" type="submit" disabled>Guardar contraseña <span aria-hidden="true">↗</span></button></form><p class="auth-switch">¿Venció el enlace? <a href="recuperar.html">Solicitar otro</a></p></section>
+  </main>
+  <footer class="auth-footer wrap"><span>© 2026 REVELA. · Santiago Ares</span><a href="index.html">Volver a la academia</a></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

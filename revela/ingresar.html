@@ -9,14 +9,16 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="auth-page">
+<body class="auth-page" data-auth-page="login">
   <a class="skip" href="#contenido">Saltar al contenido</a>
   <header class="site-header"><div class="header-inner wrap"><a class="brand" href="index.html" aria-label="REVELA., volver al inicio">revela<span>.</span><small>Academia de fotografía</small></a><a class="auth-header-link" href="registro.html">Crear cuenta <span aria-hidden="true">↗</span></a></div></header>
   <main class="auth-layout wrap" id="contenido">
-    <div class="auth-editorial"><div class="section-marker">Tu espacio</div><h1>Seguimos<br><em>mirando.</em></h1><p>Entrá para continuar donde dejaste tu curso, revisar tus actividades y volver a los materiales.</p><div class="auth-index">02 / Ingresar</div></div>
-    <section class="auth-panel" aria-labelledby="login-title"><div class="panel-top">REVELA. / Estudiantes <span>02</span></div><h2 id="login-title">Ingresar</h2><p>Usá el correo con el que creaste tu cuenta.</p><div class="auth-state" id="auth-state" role="status" aria-live="polite">Estamos terminando la conexión segura de las cuentas. Esta pantalla es una vista previa y todavía no recibe datos.</div><form id="login-form" novalidate><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required disabled><label for="password">Contraseña</label><input id="password" name="password" type="password" autocomplete="current-password" required disabled><a class="auth-recovery" href="recuperar.html">Olvidé mi contraseña</a><button class="button button-dark auth-submit" type="submit" disabled>Ingresar <span aria-hidden="true">↗</span></button></form><p class="auth-switch">¿Es tu primera vez? <a href="registro.html">Crear cuenta gratuita</a></p></section>
+    <div class="auth-editorial"><div class="section-marker">Tu espacio</div><h1>Seguimos<br><em>mirando.</em></h1><p>Ingresá a tu cuenta. Desde aquí podrás acceder al campus cuando estén listos los materiales.</p><div class="auth-index">02 / Ingresar</div></div>
+    <section class="auth-panel" aria-labelledby="login-title"><div class="panel-top">REVELA. / Estudiantes <span>02</span></div><h2 id="login-title">Ingresar</h2><p>Usá el correo con el que creaste tu cuenta.</p><div class="auth-state" id="auth-state" role="status" aria-live="polite">Cargando el ingreso…</div><form id="login-form" novalidate><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required disabled><label for="password">Contraseña</label><input id="password" name="password" type="password" autocomplete="current-password" required disabled><a class="auth-recovery" href="recuperar.html">Olvidé mi contraseña</a><button class="button button-dark auth-submit" type="submit" disabled>Ingresar <span aria-hidden="true">↗</span></button></form><p class="auth-switch">¿Es tu primera vez? <a href="registro.html">Crear cuenta gratuita</a></p></section>
   </main>
   <footer class="auth-footer wrap"><span>© 2026 REVELA. · Santiago Ares</span><a href="index.html">Volver a la academia</a></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-config.js"></script>
   <script src="auth.js"></script>
 </body>
 </html>

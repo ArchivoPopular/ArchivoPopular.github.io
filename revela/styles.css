@@ -28,7 +28,7 @@
 @media(min-width:761px) and (max-width:900px){.menu-toggle{display:flex;flex-direction:column;justify-content:center;gap:6px;width:40px;height:40px;border:0;background:transparent;padding:7px;cursor:pointer}.menu-toggle span{width:25px;height:2px;background:var(--ink)}.nav{display:none;position:absolute;left:0;right:0;top:92px;background:var(--paper);border-bottom:1px solid var(--line);padding:25px 26px 30px;flex-direction:column;align-items:stretch;gap:22px}.nav.is-open{display:flex}.nav a{font-size:16px}.nav-cta{justify-content:space-between}}
 @media(max-width:760px){.field-section{padding-block:65px}.field-label span:last-child{display:none}.field-grid{display:block;margin-top:30px}.field-grid h2{font-size:clamp(48px,9vw,70px);margin-bottom:28px}.field-grid p{font-size:16px}.program-section{padding:76px 0}.program-head{display:block;margin-bottom:34px}.program-head h2{font-size:clamp(54px,10vw,76px);margin:30px 0}.program-head>p{font-size:16px}.program-grid{grid-template-columns:1fr}.program-grid article{min-height:270px;padding:23px}.program-grid h3{font-size:31px;margin:36px 0 15px}.included-list{margin-bottom:30px}.card-link{white-space:normal}}
 
-/* Account screens are staged without a credential service. */
+/* Account screens */
 .auth-page{min-height:100vh;display:flex;flex-direction:column}
 .auth-header-link{font-size:13px;font-weight:700;border-bottom:1px solid var(--ink);padding-bottom:6px}
 .auth-header-link span{margin-left:20px}
@@ -43,6 +43,9 @@
 .auth-panel h2{font-size:clamp(39px,3.2vw,55px);margin:65px 0 17px}
 .auth-panel>p{font-size:15px;line-height:1.5;color:#555651;max-width:430px}
 .auth-state{border-left:3px solid var(--purple);background:#f0eaf7;padding:13px 15px;font-size:13px;line-height:1.45;margin:25px 0 28px;color:#362252}
+.auth-state[data-kind="error"]{border-color:#b63c43;background:#fae9e8;color:#6b2529}
+.auth-state[data-kind="success"]{border-color:#37785a;background:#e4f1e9;color:#24533b}
+.auth-state[hidden],#account-details[hidden]{display:none}
 .auth-panel form{display:flex;flex-direction:column}
 .auth-panel label{font-size:12px;font-weight:700;margin:0 0 8px}
 .auth-panel input{width:100%;border:1px solid #aaa9a3;background:#fff;padding:15px 14px;margin:0 0 20px;font:inherit;font-size:16px;border-radius:0;min-height:50px}
@@ -51,7 +54,15 @@
 .auth-submit:disabled{background:#706e68;cursor:not-allowed}
 .auth-switch{margin:27px 0 0!important;font-size:13px!important}
 .auth-switch a{color:var(--purple);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.auth-privacy{font-size:12px!important;line-height:1.5!important;margin:19px 0 0!important}
 .auth-recovery{align-self:flex-end;margin:-5px 0 20px;font-size:12px;font-weight:700;color:var(--purple);text-decoration:underline;text-underline-offset:3px}
+.account-label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:var(--purple);margin:26px 0 10px}
+.account-name{font-size:30px;font-weight:700;letter-spacing:-.04em;margin:0 0 5px;overflow-wrap:anywhere}
+.account-email{font-size:14px;color:#555651;overflow-wrap:anywhere}
+.account-next{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:25px 0 20px;margin:33px 0 24px}
+.account-next span{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--purple);font-weight:700}
+.account-next h3{font-size:28px;margin:18px 0 10px}
+.account-next p{font-size:14px;line-height:1.55;color:#555651;margin:0}
 .auth-footer{border-top:1px solid var(--line);padding-block:23px;display:flex;justify-content:space-between;gap:20px;color:#656560;font-size:11px}
 .auth-footer a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:900px){.auth-layout{grid-template-columns:1fr;gap:40px;padding-block:60px}.auth-editorial{min-height:auto}.auth-editorial h1{font-size:clamp(60px,10vw,88px);margin:36px 0 25px}.auth-index{margin-top:40px}.auth-panel h2{margin-top:45px}}
