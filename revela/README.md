@@ -12,12 +12,12 @@ La rama `revela-preparacion-registro` contiene:
 
 ## Estado real
 
-**No fusionar con `main` ni activar cobros todavía.** Este código no está conectado a un proyecto Supabase: `auth-config.js` tiene URL y clave pública vacías. Los formularios quedan cerrados y el campus no accede a datos. La web pública actual en `main` sigue siendo informativa.
+**No fusionar con `main` ni activar cobros todavía.** `auth-config.js` ya está conectado al proyecto Supabase de REVELA y la API de autenticación respondió correctamente. Todavía falta ejecutar el esquema para crear las tablas, permisos y almacenamiento privado. La web pública actual en `main` sigue siendo informativa.
 
 Para probarlo en un proyecto real:
 
 1. Crear un proyecto Supabase y ejecutar una vez `supabase/schema.sql` en SQL Editor. Después cargar la clave de corrección **privada** `REVELA_clave_evaluacion_modulo_1.sql` desde el archivo entregado por separado. Mantener la confirmación de correo activada.
-2. Colocar la **Project URL** y la **publishable key** en `auth-config.js`. Nunca publicar secret/service_role keys.
+2. La **Project URL** y la **publishable key** ya están colocadas en `auth-config.js`. Nunca publicar secret/service_role keys.
 3. Configurar la Site URL real y las rutas exactas `cuenta.html` y `nueva-clave.html` como redirecciones permitidas en Authentication → URL Configuration. Usar HTTPS.
 4. Crear una cuenta administradora, confirmar el correo y asignar su UUID siguiendo `supabase/README.md`. No inferir un administrador por el dominio del correo.
 5. Configurar envío de correo apto para producción, política de privacidad, condiciones del curso y datos reales de transferencia/WhatsApp. Mantener `payments_enabled=false` hasta que haya contenido pago utilizable y condiciones publicadas.
@@ -28,4 +28,4 @@ Los PDF se agregan después desde el panel admin; nunca desde una carpeta públi
 
 ## Limitaciones actuales
 
-El esquema y la interfaz se revisaron en local, pero **no se ejecutaron contra un proyecto Supabase** porque todavía no hay uno conectado. No se verificaron entrega de correos, políticas RLS ni permisos de Storage en vivo. El servicio de correo de prueba de Supabase tiene límites; configurar un remitente apto para producción. El número de intentos de evaluación permanece abierto y no debe darse por decidido a partir de esta versión.
+La conexión con Auth se verificó contra el proyecto real, pero el esquema todavía no se ejecutó. No se verificaron entrega de correos, políticas RLS ni permisos de Storage en vivo. El servicio de correo de prueba de Supabase tiene límites; configurar un remitente apto para producción. El número de intentos de evaluación permanece abierto y no debe darse por decidido a partir de esta versión.
