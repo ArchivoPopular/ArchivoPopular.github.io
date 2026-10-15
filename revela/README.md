@@ -1,6 +1,6 @@
 # REVELA. — rama de preparación del registro
 
-Esta carpeta contiene el texto de lanzamiento y las pantallas de `registro.html` e `ingresar.html`.
+Esta carpeta contiene el texto de lanzamiento y las pantallas de `registro.html`, `ingresar.html` y `recuperar.html`.
 
 **No desplegar esta rama como sitio público todavía.** La portada y las preguntas frecuentes describen el primer módulo como disponible, pero los formularios están deshabilitados. No se capturan ni almacenan contraseñas. La rama `main` conserva la información real de preapertura.
 
