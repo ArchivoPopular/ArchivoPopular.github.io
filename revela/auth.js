@@ -119,7 +119,7 @@
   } else if (page === 'new-password') {
     const hash = new URLSearchParams(location.hash.slice(1));
     if (hash.has('error')) message('El enlace no es válido o venció. Solicitá uno nuevo.', 'error');
-    else message('Comprobando el enlace de recuperación…');
+    else message('Abrí el enlace de recuperación que recibiste por correo para habilitar el cambio de contraseña.');
     client.auth.onAuthStateChange(event => {
       if (event === 'PASSWORD_RECOVERY') {
         enableForm(true);
