@@ -21,17 +21,31 @@ jobs:
           python3 - <<'PY'
           import requests,re
           from html import unescape
-          u='https://apnews.com/article/b68d2e2e315644e62de8f6839e8ddcff'
-          h=requests.get(u,headers={'User-Agent':'Mozilla/5.0'},timeout=30).text
-          m=re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',h,re.I)
-          if not m:
-              m=re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image',h,re.I)
-          if not m: raise SystemExit('No se encontró la imagen OG de AP')
-          img=unescape(m.group(1))
-          r=requests.get(img,headers={'User-Agent':'Mozilla/5.0'},timeout=30); r.raise_for_status()
-          open('brasil-photo.jpg','wb').write(r.content)
+          sources=[
+            'https://www.the-journal.com/articles/associated-press/brazil-votes-in-a-tense-lula-vs-bolsonaro-runoff-with-us-influence-over-latin-america-at-stake/',
+            'https://www.durangoherald.com/articles/associated-press/brazil-votes-in-a-tense-lula-vs-bolsonaro-runoff-with-us-influence-over-latin-america-at-stake/',
+            'https://apnews.com/article/a57e634f05fa4ba0b565babfca7427c7'
+          ]
+          img=None
+          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/128 Safari/537.36'}
+          for u in sources:
+              try:
+                  resp=requests.get(u,headers=headers,timeout=30); resp.raise_for_status(); h=resp.text
+                  for tag in re.findall(r'<meta\\b[^>]*>',h,re.I):
+                      if re.search(r'(?:property|name)=[\\"\\'](?:og:image|twitter:image)[\\"\\']',tag,re.I):
+                          mm=re.search(r'content=[\\"\\']([^\\"\\']+)',tag,re.I)
+                          if mm: img=unescape(mm.group(1)); break
+                  if not img:
+                      mm=re.search(r'https?://[^\\"\\']+imengine\\.public\\.prod[^\\"\\']+',h,re.I)
+                      if mm: img=unescape(mm.group(0))
+                  if img: break
+              except Exception as e: print('Fuente falló:',u,str(e))
+          if not img: raise SystemExit('No se pudo localizar una fotografía periodística en las fuentes AP')
+          r=requests.get(img,headers=headers,timeout=30); r.raise_for_status()
+          open('brasil-photo-original','wb').write(r.content)
           print('Imagen fuente:',img,'bytes:',len(r.content))
           PY
+          convert brasil-photo-original -quality 92 brasil-photo.jpg
           identify brasil-photo.jpg
           cp logo.png archivo-popular-logo-master.png
       - name: Render PNG master
