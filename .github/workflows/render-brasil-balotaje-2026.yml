@@ -31,12 +31,19 @@ jobs:
           for u in sources:
               try:
                   resp=requests.get(u,headers=headers,timeout=30); resp.raise_for_status(); h=resp.text
-                  for tag in re.findall(r'<meta\\b[^>]*>',h,re.I):
-                      if re.search(r'(?:property|name)=[\\"\\'](?:og:image|twitter:image)[\\"\\']',tag,re.I):
-                          mm=re.search(r'content=[\\"\\']([^\\"\\']+)',tag,re.I)
-                          if mm: img=unescape(mm.group(1)); break
+                  from html.parser import HTMLParser
+                  class MetaParser(HTMLParser):
+                      def __init__(self):
+                          super().__init__(); self.image=None
+                      def handle_starttag(self,tag,attrs):
+                          if tag.lower()!='meta': return
+                          d=dict(attrs)
+                          if d.get('property','').lower()=='og:image' or d.get('name','').lower()=='twitter:image':
+                              if d.get('content'): self.image=d['content']
+                  parser=MetaParser(); parser.feed(h)
+                  img=unescape(parser.image) if parser.image else None
                   if not img:
-                      mm=re.search(r'https?://[^\\"\\']+imengine\\.public\\.prod[^\\"\\']+',h,re.I)
+                      mm=re.search('https?://[^" ]*imengine.public.prod[^" ]*',h,re.I)
                       if mm: img=unescape(mm.group(0))
                   if img: break
               except Exception as e: print('Fuente falló:',u,str(e))
