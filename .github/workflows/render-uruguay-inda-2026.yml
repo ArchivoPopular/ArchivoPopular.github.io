@@ -1,0 +1,78 @@
+name: Render Uruguay INDA 2026
+on:
+  push:
+    paths:
+      - 'tmp-render-uruguay-inda-2026.svg'
+      - '.github/workflows/render-uruguay-inda-2026.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick fonts-urw-base35 python3-requests
+      - name: Obtener foto periodística original
+        run: |
+          python3 - <<'PY'
+          import requests,re
+          from html import unescape
+          sources=[
+            'https://www.gub.uy/ministerio-educacion-cultura/comunicacion/noticias/dia-mundial-alimentacion-reflexiona-sobre-innovacion-desarrollo-sostenible',
+            'https://www.gub.uy/presidencia/comunicacion/noticias/inseguridad-alimentaria-registra-su-mayor-reduccion-hogares-menores-seis-anos'
+          ]
+          img=None
+          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/128 Safari/537.36'}
+          for u in sources:
+              try:
+                  resp=requests.get(u,headers=headers,timeout=30); resp.raise_for_status(); h=resp.text
+                  from html.parser import HTMLParser
+                  class MetaParser(HTMLParser):
+                      def __init__(self):
+                          super().__init__(); self.image=None
+                      def handle_starttag(self,tag,attrs):
+                          if tag.lower()!='meta': return
+                          d=dict(attrs)
+                          if d.get('property','').lower()=='og:image' or d.get('name','').lower()=='twitter:image':
+                              if d.get('content'): self.image=d['content']
+                  parser=MetaParser(); parser.feed(h)
+                  img=unescape(parser.image) if parser.image else None
+                  if not img:
+                      mm=re.search('https?://[^" ]*imengine.public.prod[^" ]*',h,re.I)
+                      if mm: img=unescape(mm.group(0))
+                  if img: break
+              except Exception as e: print('Fuente falló:',u,str(e))
+          if not img: raise SystemExit('No se pudo localizar una fotografía periodística en las fuentes AP')
+          r=requests.get(img,headers=headers,timeout=30); r.raise_for_status()
+          open('uruguay-photo-original','wb').write(r.content)
+          print('Imagen fuente:',img,'bytes:',len(r.content))
+          PY
+          convert uruguay-photo-original -quality 92 uruguay-photo.jpg
+          identify uruguay-photo.jpg
+          cp logo.png archivo-popular-logo-master.png
+      - name: Render PNG master
+        run: |
+          rsvg-convert -w 2160 -h 2700 tmp-render-uruguay-inda-2026.svg -o archivo-popular-uruguay-inda-2026-master.png
+          identify archivo-popular-uruguay-inda-2026-master.png
+      - name: Integrar foto y placa en el sitio
+        run: |
+          mkdir -p assets/news assets/cards
+          cp uruguay-photo.jpg assets/news/uruguay-inda-alimentacion-2026.jpg
+          cp archivo-popular-uruguay-inda-2026-master.png assets/cards/archivo-popular-uruguay-inda-2026-master.png
+          git config user.name 'Archivo Popular'
+          git config user.email 'santiagoares3@gmail.com'
+          git add assets/news/uruguay-inda-alimentacion-2026.jpg assets/cards/archivo-popular-uruguay-inda-2026-master.png
+          if ! git diff --cached --quiet; then
+            git commit -m 'Integra foto y placa sobre inseguridad alimentaria en Uruguay'
+            git push
+          fi
+      - name: Subir PNG master como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-popular-uruguay-inda-2026
+          path: archivo-popular-uruguay-inda-2026-master.png
+          retention-days: 7
