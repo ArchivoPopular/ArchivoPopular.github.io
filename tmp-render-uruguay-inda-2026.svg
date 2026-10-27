@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2160" height="2700" viewBox="0 0 2160 2700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs><clipPath id="photoFrame"><rect x="0" y="0" width="2160" height="1590"/></clipPath><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset=".75" stop-color="#000" stop-opacity="0"/></linearGradient></defs>
+<rect width="2160" height="2700" fill="#F3F0E9"/>
+<g clip-path="url(#photoFrame)"><rect width="2160" height="1590" fill="#090909"/><image x="0" y="0" width="2160" height="1590" preserveAspectRatio="xMidYMid slice" xlink:href="uruguay-photo.jpg"/><rect width="2160" height="430" fill="url(#shade)"/></g>
+<image x="800" y="42" width="560" height="181" preserveAspectRatio="xMidYMid meet" xlink:href="archivo-popular-logo-master.png"/>
+<rect x="120" y="1510" width="820" height="80" fill="#FFF"/><text x="150" y="1562" fill="#090909" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="2">FOTO: MEC / GOBIERNO DE URUGUAY</text>
+<rect y="1590" width="2160" height="986" fill="#090909"/><rect y="1590" width="2160" height="12" fill="#E30613"/>
+<text x="120" y="1830" fill="#FFF" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="112" font-weight="700" letter-spacing="-2"><tspan x="120" dy="0">URUGUAY: BAJA</tspan><tspan x="120" dy="140">LA INSEGURIDAD</tspan><tspan x="120" dy="140">ALIMENTARIA</tspan><tspan x="120" dy="140">INFANTIL, PERO</tspan><tspan x="120" dy="140">PERSISTE LA BRECHA</tspan></text>
+<text x="120" y="2510" fill="#E30613" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="48" font-weight="700" letter-spacing="2">27 DE OCTUBRE DE 2026</text><text x="2040" y="2510" text-anchor="end" fill="#BEBAB2" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="48" font-weight="600" letter-spacing="2">MONTEVIDEO</text>
+<rect y="2576" width="2160" height="124" fill="#FFF"/><rect y="2576" width="620" height="124" fill="#E30613"/><text x="310" y="2657" text-anchor="middle" fill="#FFF" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="5">NOTICIA</text><text x="2040" y="2657" text-anchor="end" fill="#090909" font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="2">@archivopopular</text>
+</svg>
