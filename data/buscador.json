@@ -2,6 +2,38 @@
   "version": 1,
   "items": [
     {
+      "id": "flavio-bolsonaro-sale-brasil-trump-visas-2026",
+      "type": "Noticia",
+      "title": "Flávio Bolsonaro salió de Brasil pese a la prohibición judicial y Trump avala su ingreso a EE. UU.",
+      "summary": "Migraciones de Argentina confirmó el paso del senador brasileño y su familia por Puerto Iguazú y un vuelo privado hacia Ecuador. Washington anunció que les concederá visados; su llegada a Estados Unidos aún no estaba verificada.",
+      "category": "Brasil · Justicia · Política internacional",
+      "date": "2026-10-28T09:55:00-03:00",
+      "dateDisplay": "28 OCT 2026",
+      "place": "Puerto Iguazú · Argentina",
+      "url": "noticias/flavio-bolsonaro-sale-brasil-trump-visas-2026.html",
+      "keywords": [
+        "Flávio Bolsonaro",
+        "Donald Trump",
+        "Brasil",
+        "Argentina",
+        "Puerto Iguazú",
+        "Ecuador",
+        "Guayaquil",
+        "visa",
+        "visados",
+        "Estados Unidos",
+        "STF",
+        "Alexandre de Moraes",
+        "Policía Federal",
+        "fuga",
+        "pasaportes",
+        "Lula",
+        "elecciones Brasil 2026",
+        "Migraciones"
+      ],
+      "body": "Flávio Bolsonaro cruzó desde Brasil a Puerto Iguazú, Argentina, el 27 de octubre de 2026 a las 22:50 con su esposa e hijas, según la Dirección Nacional de Migraciones. A las 23:30 abordaron un vuelo privado de Baires Fly con destino Guayaquil, Ecuador. Alexandre de Moraes había prohibido al senador salir de Brasil y le había ordenado entregar sus pasaportes; la Policía Federal los canceló al vencer el plazo. Donald Trump afirmó que aprobaría su ingreso a Estados Unidos y el Departamento de Estado anunció que expedirá visas a la familia. La llegada efectiva a Miami no estaba confirmada a la hora de publicar. Flávio es investigado por presunto lavado de dinero, sin condena por estos hechos. La salida ocurrió tras su derrota ante Lula da Silva en las elecciones del 25 de octubre."
+    },
+    {
       "id": "milei-no-saluda-lula-2026",
       "type": "Noticia",
       "title": "Milei no saludará oficialmente a Lula: la Casa Rosada lo justifica con un reproche de 2023",
