@@ -2,6 +2,34 @@
   "version": 1,
   "items": [
     {
+      "id": "factum-desaprobacion-orsi-26-aprobacion-2026",
+      "type": "Noticia",
+      "title": "Encuesta Factum: 52% desaprueba a Orsi y el apoyo sigue en 26%",
+      "summary": "La quinta medición de Factum ubicó la aprobación de la gestión de Yamandú Orsi en 26%, la desaprobación en 52% y la posición intermedia en 22%. El rechazo cayó tres puntos frente al bimestre anterior, sin aumento de la aprobación.",
+      "category": "Uruguay · Presidencia · Opinión pública",
+      "date": "2026-10-29T17:11:49-03:00",
+      "dateDisplay": "29 OCT 2026",
+      "place": "Uruguay · Encuesta nacional",
+      "url": "noticias/factum-desaprobacion-orsi-26-aprobacion-2026.html",
+      "keywords": [
+        "Factum",
+        "Encuesta Nacional Factum",
+        "Yamandú Orsi",
+        "aprobación",
+        "desaprobación",
+        "presidencia",
+        "Uruguay",
+        "52%",
+        "26%",
+        "opinión pública",
+        "encuesta de opinión",
+        "gobierno",
+        "Frente Amplio",
+        "Coalición Republicana"
+      ],
+      "body": "El 52% de las personas encuestadas desaprueba la gestión del presidente Yamandú Orsi, mientras que 26% la aprueba y 22% no aprueba ni desaprueba. Son los resultados de la quinta medición de 2026 de Factum, difundida el miércoles 28 de octubre. El saldo entre aprobación y desaprobación quedó en -26 puntos.\n\nEn el relevamiento anterior, la aprobación también estaba en 26%. La desaprobación pasó de 55% a 52%, mientras que la posición intermedia subió de 19% a 22%. Factum atribuye el movimiento principalmente a votantes de los partidos que integraron la Coalición Republicana en 2024; los resultados agregados cambian poco.\n\nLa consultora señala que los movimientos son acotados y deben leerse con cautela, porque están dentro del margen de error máximo. Describe dos mediciones consecutivas sin deterioro como una estabilización del cuadro de opinión. Aclara que todavía no puede establecerse una reversión de la tendencia: la aprobación no crece y la reducción del saldo negativo responde a una moderación del rechazo.\n\nLa división también aparece al mirar el voto de 2024. Entre quienes votaron al Frente Amplio, 54% aprueba la gestión, 23% no aprueba ni desaprueba y 22% la desaprueba. Entre votantes de los partidos que integraron la Coalición Republicana, 79% desaprueba, 15% queda en posición intermedia y 5% aprueba.\n\nEl trabajo de campo se realizó entre el 1 y el 17 de octubre mediante 900 entrevistas por telefonía celular a personas mayores de 18 años, residentes en zonas urbanas y rurales de todo el país. Factum informó un margen de error estadístico máximo de ±3,3 puntos porcentuales a dos sigmas y ponderación según el voto de octubre de 2024.\n\nLectura editorial de Archivo Popular: el descenso del rechazo no se transformó en una mejora de la aprobación. La encuesta marca una pausa en el deterioro, pero todavía no muestra un repunte del apoyo al presidente. La próxima medición permitirá observar si la estabilización se sostiene."
+    },
+    {
       "id": "gobierno-firma-decreto-topes-municiones-uruguay-2026",
       "type": "Noticia",
       "title": "El Gobierno firmó un decreto para limitar la compra de municiones: 250 cartuchos 9 mm al año para usuarios regulares",
