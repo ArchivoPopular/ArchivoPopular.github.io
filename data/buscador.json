@@ -2,6 +2,32 @@
   "version": 1,
   "items": [
     {
+      "id": "trump-lula-eleccion-verguenza-2026",
+      "type": "Noticia",
+      "title": "Lula fue reelecto con 51,79% y Trump llamó “vergüenza” al proceso electoral",
+      "summary": "Lula ganó el balotaje brasileño con 51,79% de los votos válidos. Trump calificó la elección de “vergüenza” y evitó decir quién considera ganador legítimo.",
+      "category": "Brasil · Elecciones · Democracia",
+      "date": "2026-10-29T17:33:21-03:00",
+      "dateDisplay": "29 OCT 2026",
+      "place": "Maryland · Estados Unidos / Brasil",
+      "url": "noticias/trump-lula-eleccion-verguenza-2026.html",
+      "keywords": [
+        "Brasil",
+        "Lula",
+        "Luiz Inácio Lula da Silva",
+        "Donald Trump",
+        "Flávio Bolsonaro",
+        "elecciones brasileñas",
+        "TSE",
+        "soberanía",
+        "democracia",
+        "51,79%",
+        "balotaje",
+        "Estados Unidos"
+      ],
+      "body": "El presidente de Estados Unidos, Donald Trump, calificó de “vergüenza” la elección brasileña que reeligió a Luiz Inácio Lula da Silva. Este jueves 29, al ser consultado por periodistas sobre si llamaría a Lula, dijo que planea hablar con él, pero volvió a descalificar el proceso. Cuando le preguntaron quién considera el ganador legítimo, evitó responder.\n\nEl resultado oficial del Tribunal Superior Electoral (TSE) dio a Lula 64.256.232 votos, el 51,79% de los votos válidos. Flávio Bolsonaro obtuvo 59.826.041 votos, equivalentes al 48,21%. El TSE anunció la reelección de Lula el domingo 25, al conocerse el resultado irreversible del balotaje.\n\nTrump afirmó que no había tomado partido y vinculó sus críticas con la reacción de los mercados. En su declaración de este jueves no presentó pruebas de irregularidades. El lunes 26 ya había dicho, también sin aportar evidencia, que la elección parecía fraudulenta, según Folha de S.Paulo.\n\nLa declaración vuelve a colocar en primer plano la soberanía electoral brasileña y la relación entre Washington y el gobierno reelecto. La autoridad electoral brasileña anunció los resultados y el presidente estadounidense no identificó a otra candidatura como vencedora ni presentó elementos que contradigan el escrutinio.\n\nLectura editorial de Archivo Popular: la legitimidad del mandato surge de los votos y de los procedimientos de las instituciones electorales brasileñas. Una descalificación desde el extranjero, sin pruebas que la sostengan, no reemplaza esos mecanismos ni la decisión del electorado."
+    },
+    {
       "id": "factum-desaprobacion-orsi-26-aprobacion-2026",
       "type": "Noticia",
       "title": "Encuesta Factum: 52% desaprueba a Orsi y el apoyo sigue en 26%",
