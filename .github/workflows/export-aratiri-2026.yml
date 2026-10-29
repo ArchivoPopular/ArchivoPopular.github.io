@@ -14,21 +14,19 @@ jobs:
       - name: Instalar motor SVG y fuente Nimbus Sans
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y inkscape fonts-urw-base35
-      - name: Descargar fotografía documental original
+          sudo apt-get install -y inkscape fonts-urw-base35 imagemagick
+      - name: Convertir fotografía documental original alojada en el sitio
         run: |
-          curl -fL --retry 4 --retry-delay 3 -A 'Mozilla/5.0' \
-            'https://upload.wikimedia.org/wikipedia/commons/4/45/Jorge_D%C3%ADaz_en_el_Consejo_de_Ministros_de_Uruguay_del_11_de_agosto_de_2026.jpg' \
-            -o /tmp/aratiri-photo.jpg
-          test "$(stat -c%s /tmp/aratiri-photo.jpg)" -gt 100000
+          convert assets/news/jorge-diaz-entrevista-en-clave-pais-nahuel-arrue-2026.webp /tmp/aratiri-photo.png
+          test "$(stat -c%s /tmp/aratiri-photo.png)" -gt 10000
       - name: Incorporar fotografía y logotipo oficiales sin alterar la plantilla
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import base64
           s=Path('assets/news/aratiri-2026-master.svg').read_text()
-          photo='https://upload.wikimedia.org/wikipedia/commons/4/45/Jorge_D%C3%ADaz_en_el_Consejo_de_Ministros_de_Uruguay_del_11_de_agosto_de_2026.jpg'
-          s=s.replace(photo, 'data:image/jpeg;base64,'+base64.b64encode(Path('/tmp/aratiri-photo.jpg').read_bytes()).decode())
+          photo='https://archivopopular.github.io/assets/news/jorge-diaz-entrevista-en-clave-pais-nahuel-arrue-2026.webp'
+          s=s.replace(photo, 'data:image/png;base64,'+base64.b64encode(Path('/tmp/aratiri-photo.png').read_bytes()).decode())
           s=s.replace('https://archivopopular.github.io/logo.png','data:image/png;base64,'+base64.b64encode(Path('logo.png').read_bytes()).decode())
           Path('/tmp/aratiri-embedded.svg').write_text(s)
           PY
