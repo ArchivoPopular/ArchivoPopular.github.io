@@ -1,0 +1,47 @@
+name: Exportar placas de Archivo Popular
+on:
+  push:
+    paths:
+      - 'assets/placas/*.svg'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar Inkscape
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq inkscape
+      - name: Integrar fotografía documental y exportar PNG
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, base64, urllib.request, subprocess
+          for path in Path('assets/placas').glob('*.svg'):
+              content = path.read_text(encoding='utf-8')
+              m = re.search(r'xlink:href="(https://medios\.presidencia\.gub\.uy/[^"]+\.jpg)"', content)
+              if not m:
+                  continue
+              url = m.group(1)
+              req = urllib.request.Request(url, headers={'User-Agent': 'ArchivoPopular/1.0'})
+              with urllib.request.urlopen(req, timeout=90) as response:
+                  raw = response.read()
+              if not raw.startswith(b'\xff\xd8\xff'):
+                  raise ValueError('La foto descargada no es JPEG')
+              content = content.replace('xlink:href="'+url+'"', 'xlink:href="data:image/jpeg;base64,'+base64.b64encode(raw).decode('ascii')+'"', 1)
+              path.write_text(content, encoding='utf-8')
+              output = path.with_suffix('.png')
+              subprocess.run(['inkscape', str(path), '--export-filename='+str(output), '--export-width=2160', '--export-height=2700'], check=True)
+              print(f'Generado {output}: {output.stat().st_size} bytes')
+          PY
+      - name: Publicar placa PNG y SVG autocontenidos
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/placas/
+          if ! git diff --cached --quiet; then
+            git commit -m "Exportar placa máster con fotografía real [skip ci]"
+            git push
+          fi
