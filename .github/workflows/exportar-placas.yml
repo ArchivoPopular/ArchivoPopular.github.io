@@ -34,6 +34,11 @@ jobs:
               photo.parent.mkdir(parents=True, exist_ok=True)
               photo.write_bytes(raw)
               content = content.replace('xlink:href="'+url+'"', 'xlink:href="data:image/jpeg;base64,'+base64.b64encode(raw).decode('ascii')+'"', 1)
+              # Mantener el logotipo original del sitio, incrustado sin alteraciones.
+              logo_url = 'https://archivopopular.github.io/logo.png'
+              if 'xlink:href="'+logo_url+'"' in content:
+                  logo_raw = Path('logo.png').read_bytes()
+                  content = content.replace('xlink:href="'+logo_url+'"', 'xlink:href="data:image/png;base64,'+base64.b64encode(logo_raw).decode('ascii')+'"')
               path.write_text(content, encoding='utf-8')
               output = path.with_suffix('.png')
               subprocess.run(['inkscape', str(path), '--export-filename='+str(output), '--export-width=2160', '--export-height=2700'], check=True)
