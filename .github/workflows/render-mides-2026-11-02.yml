@@ -31,7 +31,7 @@ jobs:
                       req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0 (compatible; ArchivoPopular/1.0)'})
                       with urllib.request.urlopen(req, timeout=60) as response:
                           raw = response.read()
-                      if not raw.startswith(b'\\xff\\xd8\\xff'):
+                      if not raw.startswith(bytes([0xff, 0xd8, 0xff])):
                           raise ValueError('La imagen descargada no es JPEG')
                       source.write_bytes(raw)
                       break
@@ -54,8 +54,10 @@ jobs:
           p.write_text(content, encoding='utf-8')
           png = p.with_suffix('.png')
           subprocess.run(['inkscape',str(p),'--export-filename='+str(png),'--export-width=2160','--export-height=2700'],check=True)
-          dims = subprocess.check_output(['identify','-format','%wx%h',str(png)],text=True)
-          assert dims == '2160x2700', dims
+          import struct
+          pngraw = png.read_bytes()
+          assert pngraw[:8] == b'\\x89PNG\\r\\n\\x1a\\n'
+          assert struct.unpack('>II', pngraw[16:24]) == (2160,2700)
           print(f'Placa exportada: {png} ({png.stat().st_size} bytes), foto original: {source.stat().st_size} bytes')
           PY
       - name: Guardar SVG autocontenido, fotografía original y PNG máster
