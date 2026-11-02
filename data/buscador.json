@@ -2,6 +2,35 @@
   "version": 1,
   "items": [
     {
+      "id": "mides-100-plazas-rurales-situacion-calle-2026",
+      "type": "Noticia",
+      "title": "El Mides prevé 100 plazas en el medio rural para personas en situación de calle",
+      "summary": "El Mides prepara tres experiencias de alojamiento, convivencia y producción en Colonia, Maldonado y Río Negro, con unas 100 plazas previstas y participación voluntaria.",
+      "category": "Uruguay · Políticas sociales · Situación de calle",
+      "date": "2026-11-02T10:00:00-03:00",
+      "dateDisplay": "2 NOV 2026",
+      "place": "Colonia · Maldonado · Río Negro",
+      "url": "noticias/mides-100-plazas-rurales-situacion-calle-2026.html",
+      "keywords": [
+        "MIDES",
+        "Gonzalo Civila",
+        "situación de calle",
+        "Habitar Convivir y Producir",
+        "100 plazas",
+        "200 plazas",
+        "Colonia",
+        "Maldonado",
+        "Río Negro",
+        "centros rurales",
+        "vivienda",
+        "autogestión",
+        "formación",
+        "trabajo productivo",
+        "Uruguay"
+      ],
+      "body": "El Ministerio de Desarrollo Social prepara el proyecto Habitar, Convivir y Producir para personas en situación de calle. Se prevén tres experiencias en Colonia, Maldonado y Río Negro antes de fin de 2026, con unas 100 plazas estimadas, y una ampliación de al menos 200 cupos en 2027. La participación será voluntaria y combinará alojamiento, convivencia, capacitación y actividades productivas con acompañamiento social y de salud mental. El ministro Gonzalo Civila anunció el programa el 29 de octubre y El País publicó detalles el 2 de noviembre. Los cupos aún no están en funcionamiento. Fotografía de archivo del ministro: Ministerio de Desarrollo Social, Colonia, 13 de marzo de 2026."
+    },
+    {
       "id": "mamografias-gratis-mujeres-40-74-uruguay-2026",
       "title": "El MSP habilita mamografías gratuitas para mujeres de 40 a 74 años en Uruguay",
       "summary": "La ordenanza 1.121/026 exonera la tasa moderadora: mamografías anuales de 40 a 49 años y cada dos años de 50 a 74. La medida fue anunciada el 29 de octubre.",
