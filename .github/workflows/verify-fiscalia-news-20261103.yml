@@ -1,0 +1,33 @@
+name: Verificar publicación noticia Plan Cóndor 2026-11-03
+on:
+  push:
+    paths:
+      - '.github/workflows/verify-fiscalia-news-20261103.yml'
+      - 'noticias/fiscalia-evalua-extradicion-pedro-mato-plan-condor-2026.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comprobar página pública y PNG maestro
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL='https://archivopopular.github.io/noticias/fiscalia-evalua-extradicion-pedro-mato-plan-condor-2026.html'
+          PNG='https://archivopopular.github.io/assets/placas/archivo-popular-fiscalia-mato-condor-2026-11-03-master.png'
+          for i in 1 2 3 4 5 6; do
+            if curl -fL --max-time 30 --silent --show-error "$URL" -o /tmp/noticia.html; then break; fi
+            sleep 15
+          done
+          grep -q 'Fiscalía evalúa pedir la extradición' /tmp/noticia.html
+          curl -fL --max-time 40 --retry 4 --retry-delay 10 --silent --show-error "$PNG" -o /tmp/master.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+          data=Path('/tmp/master.png').read_bytes()
+          assert data[:8]==bytes([137,80,78,71,13,10,26,10])
+          assert struct.unpack('>II',data[16:24])==(2160,2700)
+          print('OK: artículo accesible y PNG 2160x2700 disponible,',len(data),'bytes')
+          PY
