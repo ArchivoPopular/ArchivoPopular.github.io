@@ -1,0 +1,68 @@
+name: Renderizar placa fiscalía Plan Cóndor 3 noviembre 2026
+on:
+  push:
+    paths:
+      - 'assets/placas/archivo-popular-fiscalia-mato-condor-2026-11-03-master.svg'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar Inkscape y Nimbus Sans
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq inkscape fonts-urw-base35
+      - name: Integrar foto documental de Diego Vila y exportar PNG master
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, urllib.request, subprocess, struct, time
+          p = Path('assets/placas/archivo-popular-fiscalia-mato-condor-2026-11-03-master.svg')
+          s = p.read_text(encoding='utf-8')
+          url = 'https://brecha.com.uy/wp-content/uploads/2026/10/2-Entrevista-a-Perciballe-w-20260929DV_35710.jpg'
+          photo = Path('assets/news/archivo-popular-perciballe-diego-vila-2026-09-29-source.jpg')
+          photo.parent.mkdir(parents=True, exist_ok=True)
+          if not photo.exists():
+              last = None
+              for attempt in range(5):
+                  try:
+                      req = urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36','Accept':'image/avif,image/webp,image/jpeg,image/*;q=0.8,*/*;q=0.5','Referer':'https://brecha.com.uy/'})
+                      with urllib.request.urlopen(req, timeout=60) as response:
+                          raw = response.read()
+                      if not raw.startswith(bytes([255,216,255])) or len(raw)<10000:
+                          raise ValueError('No es una fotografía JPEG válida')
+                      photo.write_bytes(raw)
+                      break
+                  except Exception as exc:
+                      last = exc
+                      time.sleep(3*(attempt+1))
+              if not photo.exists():
+                  raise RuntimeError(f'No se pudo obtener la foto documental: {last}')
+          if url in s:
+              s = s.replace(url,'data:image/jpeg;base64,'+base64.b64encode(photo.read_bytes()).decode('ascii'))
+          if 'preserveAspectRatio="xMidYMid slice"' not in s or 'width="2160" height="1590"' not in s:
+              raise ValueError('La fotografía no cubre el área hasta la franja roja')
+          if 'FOTO: DIEGO VILA / BRECHA' not in s:
+              raise ValueError('Crédito fotográfico incorrecto')
+          if 'font-family="Nimbus Sans, Helvetica, Arial, sans-serif" font-size="145" font-weight="700" letter-spacing="-2"' not in s:
+              raise ValueError('Métricas tipográficas incorrectas')
+          p.write_text(s,encoding='utf-8')
+          png = p.with_suffix('.png')
+          subprocess.run(['inkscape',str(p),'--export-filename='+str(png),'--export-width=2160','--export-height=2700'],check=True)
+          raw=png.read_bytes()
+          assert raw[:8] == bytes([137,80,78,71,13,10,26,10])
+          assert struct.unpack('>II',raw[16:24]) == (2160,2700)
+          print('PNG',png,len(raw),'Foto original',photo.stat().st_size)
+          PY
+      - name: Publicar fotografía original, SVG autocontenido y PNG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/placas/archivo-popular-fiscalia-mato-condor-2026-11-03-master.svg assets/placas/archivo-popular-fiscalia-mato-condor-2026-11-03-master.png assets/news/archivo-popular-perciballe-diego-vila-2026-09-29-source.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m "Exportar placa Plan Condor con foto real y Nimbus Sans"
+            git pull --rebase origin main
+            git push origin main
+          fi
