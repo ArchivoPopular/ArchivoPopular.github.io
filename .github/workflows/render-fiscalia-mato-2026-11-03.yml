@@ -28,9 +28,10 @@ jobs:
               last = None
               for attempt in range(5):
                   try:
-                      req = urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36','Accept':'image/avif,image/webp,image/jpeg,image/*;q=0.8,*/*;q=0.5','Referer':'https://brecha.com.uy/'})
+                      req = urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36','Accept':'image/jpeg,image/*;q=0.8,*/*;q=0.5','Referer':'https://brecha.com.uy/'})
                       with urllib.request.urlopen(req, timeout=60) as response:
                           raw = response.read()
+                      print('PHOTO RESPONSE',response.status,response.headers.get('Content-Type'),len(raw),repr(raw[:32]))
                       if not raw.startswith(bytes([255,216,255])) or len(raw)<10000:
                           raise ValueError('No es una fotografía JPEG válida')
                       photo.write_bytes(raw)
