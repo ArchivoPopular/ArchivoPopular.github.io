@@ -2,6 +2,33 @@
   "version": 1,
   "items": [
     {
+      "id": "santiago-pena-boveda-oculta-2026",
+      "type": "Noticia",
+      "title": "Bóveda oculta en la casa de Peña: Fiscalía no logra abrir la segunda puerta",
+      "summary": "La Fiscalía confirmó el allanamiento por la causa Ueno Bank; ABC Color reportó que hallaron una bóveda tras una pared falsa y no pudieron abrir su segunda compuerta.",
+      "category": "Paraguay · Política · Ueno Bank",
+      "date": "2026-11-09T14:30:00-03:00",
+      "dateDisplay": "9 NOV 2026",
+      "place": "San Bernardino · Paraguay",
+      "url": "noticias/pena-boveda-oculta-fiscalia-2026.html",
+      "keywords": [
+        "Santiago Peña",
+        "Paraguay",
+        "Ueno Bank",
+        "bóveda oculta",
+        "San Bernardino",
+        "Ciervo Cuá",
+        "Fiscalía",
+        "allanan residencia",
+        "préstamo",
+        "fondos públicos",
+        "ahorristas",
+        "juicio político",
+        "Pedro Alliana"
+      ],
+      "body": "El Ministerio Público de Paraguay confirmó el allanamiento de la residencia del expresidente Santiago Peña en Ciervo Cuá, San Bernardino, como parte de la investigación por presuntas irregularidades vinculadas a Ueno Bank. La institución informó que la diligencia fue encabezada por los fiscales Silvia González, Christian Benítez y Elena Fiore.\nEl hallazgo de una bóveda detrás de una pared falsa fue reportado por ABC Color. Según el medio, los investigadores lograron abrir una primera puerta, pero no pudieron superar una segunda compuerta de seguridad. El contenido del compartimento no fue informado y permanece desconocido.\nEl fiscal Christian Benítez dijo a ABC Color que consultarán a especialistas para definir cómo ingresar. Una detonación controlada fue mencionada como una alternativa bajo evaluación, sin una decisión tomada. La Fiscalía tampoco ha anunciado que la bóveda contenga dinero, documentos u objetos vinculados con la causa.\nABC Color informó que la vivienda fue construida entre 2024 y 2025 con financiamiento de dos préstamos de Ueno Bank por G. 3.548 millones, y que las cuotas mensuales sumaban G. 239 millones. Esos datos forman parte de lo que se investiga y no equivalen a una sentencia ni prueban por sí solos un delito.\nEn su comunicado, el Ministerio Público señaló que Peña fue imputado por presunta lesión de confianza, en calidad de instigador, y administración en provecho propio, en calidad de autor. La investigación está en curso y las responsabilidades deben establecerse en los tribunales.\nEl caso se inscribe en la crisis de Ueno Bank. Reuters informó que la resolución de la entidad congeló cuentas de cerca de tres millones de clientes y que el esquema de garantía comenzó a devolver depósitos. La crisis financiera derivó además en una crisis política: Peña presentó su renuncia el 5 de noviembre, pero el Senado lo destituyó en juicio político al día siguiente, según Reuters y Associated Press.\nLectura editorial: una bóveda cerrada no demuestra culpabilidad ni revela qué hay en su interior. Pero la investigación debe aclarar con documentos cómo se otorgaron los créditos, qué controles se aplicaron y qué exposición tuvieron los fondos públicos mientras millones de ahorristas quedaron afectados por la crisis."
+    },
+    {
       "id": "santiago-pena-renuncia-ueno-bank-congreso-2026",
       "type": "Noticia",
       "title": "Santiago Peña anunció su renuncia tras la crisis de Ueno Bank y envió el pedido al Congreso",
